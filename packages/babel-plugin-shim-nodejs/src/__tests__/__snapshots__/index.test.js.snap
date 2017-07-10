@@ -1,0 +1,436 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`when using Node.js globals shims __dirname global 1`] = `
+"var __dirname = '';
+
+console.log(__dirname);"
+`;
+
+exports[`when using Node.js globals shims __dirname global 2`] = `Object {}`;
+
+exports[`when using Node.js globals shims __filename global 1`] = `
+"var __filename = 'index.test.js';
+
+console.log(__filename);"
+`;
+
+exports[`when using Node.js globals shims __filename global 2`] = `Object {}`;
+
+exports[`when using Node.js globals shims Buffer global 1`] = `
+"var Buffer = require('liferay-node-buffer');
+
+const b = Buffer.alloc(10);"
+`;
+
+exports[`when using Node.js globals shims Buffer global 2`] = `
+Object {
+  "liferay-node-buffer": "1.0.0",
+}
+`;
+
+exports[`when using Node.js globals shims clearImmediate global 1`] = `
+"require('liferay-node-setimmediate');
+
+clearImmediate({});"
+`;
+
+exports[`when using Node.js globals shims clearImmediate global 2`] = `
+Object {
+  "liferay-node-setimmediate": "1.0.0",
+}
+`;
+
+exports[`when using Node.js globals shims global global 1`] = `
+"var global = window;
+
+console.log(global);"
+`;
+
+exports[`when using Node.js globals shims global global 2`] = `Object {}`;
+
+exports[`when using Node.js globals shims process global 1`] = `
+"var process = require('liferay-node-process');
+
+console.log(process.env);"
+`;
+
+exports[`when using Node.js globals shims process global 2`] = `
+Object {
+  "liferay-node-process": "1.0.0",
+}
+`;
+
+exports[`when using Node.js globals shims setImmediate global 1`] = `
+"require('liferay-node-setimmediate');
+
+const a = setImmediate(() => {});"
+`;
+
+exports[`when using Node.js globals shims setImmediate global 2`] = `
+Object {
+  "liferay-node-setimmediate": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims assert builtin module 1`] = `
+"
+require('liferay-node-assert');"
+`;
+
+exports[`when using Node.js modules shims assert builtin module 2`] = `
+Object {
+  "liferay-node-assert": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims buffer builtin module 1`] = `
+"
+require('liferay-node-buffer');"
+`;
+
+exports[`when using Node.js modules shims buffer builtin module 2`] = `
+Object {
+  "liferay-node-buffer": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims child_process builtin module 1`] = `
+"
+require('liferay-node-child_process');"
+`;
+
+exports[`when using Node.js modules shims child_process builtin module 2`] = `
+Object {
+  "liferay-node-child_process": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims cluster builtin module 1`] = `
+"
+require('liferay-node-cluster');"
+`;
+
+exports[`when using Node.js modules shims cluster builtin module 2`] = `
+Object {
+  "liferay-node-cluster": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims console builtin module 1`] = `
+"
+require('liferay-node-console');"
+`;
+
+exports[`when using Node.js modules shims console builtin module 2`] = `
+Object {
+  "liferay-node-console": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims constants builtin module 1`] = `
+"
+require('liferay-node-constants');"
+`;
+
+exports[`when using Node.js modules shims constants builtin module 2`] = `
+Object {
+  "liferay-node-constants": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims crypto builtin module 1`] = `
+"
+require('liferay-node-crypto');"
+`;
+
+exports[`when using Node.js modules shims crypto builtin module 2`] = `
+Object {
+  "liferay-node-crypto": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims dgram builtin module 1`] = `
+"
+require('liferay-node-dgram');"
+`;
+
+exports[`when using Node.js modules shims dgram builtin module 2`] = `
+Object {
+  "liferay-node-dgram": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims dns builtin module 1`] = `
+"
+require('liferay-node-dns');"
+`;
+
+exports[`when using Node.js modules shims dns builtin module 2`] = `
+Object {
+  "liferay-node-dns": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims domain builtin module 1`] = `
+"
+require('liferay-node-domain');"
+`;
+
+exports[`when using Node.js modules shims domain builtin module 2`] = `
+Object {
+  "liferay-node-domain": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims events builtin module 1`] = `
+"
+require('liferay-node-events');"
+`;
+
+exports[`when using Node.js modules shims events builtin module 2`] = `
+Object {
+  "liferay-node-events": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims fs builtin module 1`] = `
+"
+require('liferay-node-fs');"
+`;
+
+exports[`when using Node.js modules shims fs builtin module 2`] = `
+Object {
+  "liferay-node-fs": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims http builtin module 1`] = `
+"
+require('liferay-node-http');"
+`;
+
+exports[`when using Node.js modules shims http builtin module 2`] = `
+Object {
+  "liferay-node-http": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims https builtin module 1`] = `
+"
+require('liferay-node-https');"
+`;
+
+exports[`when using Node.js modules shims https builtin module 2`] = `
+Object {
+  "liferay-node-https": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims module builtin module 1`] = `
+"
+require('liferay-node-module');"
+`;
+
+exports[`when using Node.js modules shims module builtin module 2`] = `
+Object {
+  "liferay-node-module": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims net builtin module 1`] = `
+"
+require('liferay-node-net');"
+`;
+
+exports[`when using Node.js modules shims net builtin module 2`] = `
+Object {
+  "liferay-node-net": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims os builtin module 1`] = `
+"
+require('liferay-node-os');"
+`;
+
+exports[`when using Node.js modules shims os builtin module 2`] = `
+Object {
+  "liferay-node-os": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims path builtin module 1`] = `
+"
+require('liferay-node-path');"
+`;
+
+exports[`when using Node.js modules shims path builtin module 2`] = `
+Object {
+  "liferay-node-path": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims process builtin module 1`] = `
+"
+require('liferay-node-process');"
+`;
+
+exports[`when using Node.js modules shims process builtin module 2`] = `
+Object {
+  "liferay-node-process": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims punycode builtin module 1`] = `
+"
+require('liferay-node-punycode');"
+`;
+
+exports[`when using Node.js modules shims punycode builtin module 2`] = `
+Object {
+  "liferay-node-punycode": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims querystring builtin module 1`] = `
+"
+require('liferay-node-querystring');"
+`;
+
+exports[`when using Node.js modules shims querystring builtin module 2`] = `
+Object {
+  "liferay-node-querystring": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims readline builtin module 1`] = `
+"
+require('liferay-node-readline');"
+`;
+
+exports[`when using Node.js modules shims readline builtin module 2`] = `
+Object {
+  "liferay-node-readline": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims repl builtin module 1`] = `
+"
+require('liferay-node-repl');"
+`;
+
+exports[`when using Node.js modules shims repl builtin module 2`] = `
+Object {
+  "liferay-node-repl": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims stream builtin module 1`] = `
+"
+require('liferay-node-stream');"
+`;
+
+exports[`when using Node.js modules shims stream builtin module 2`] = `
+Object {
+  "liferay-node-stream": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims string_decoder builtin module 1`] = `
+"
+require('liferay-node-string_decoder');"
+`;
+
+exports[`when using Node.js modules shims string_decoder builtin module 2`] = `
+Object {
+  "liferay-node-string_decoder": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims timers builtin module 1`] = `
+"
+require('liferay-node-timers');"
+`;
+
+exports[`when using Node.js modules shims timers builtin module 2`] = `
+Object {
+  "liferay-node-timers": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims tls builtin module 1`] = `
+"
+require('liferay-node-tls');"
+`;
+
+exports[`when using Node.js modules shims tls builtin module 2`] = `
+Object {
+  "liferay-node-tls": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims tty builtin module 1`] = `
+"
+require('liferay-node-tty');"
+`;
+
+exports[`when using Node.js modules shims tty builtin module 2`] = `
+Object {
+  "liferay-node-tty": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims url builtin module 1`] = `
+"
+require('liferay-node-url');"
+`;
+
+exports[`when using Node.js modules shims url builtin module 2`] = `
+Object {
+  "liferay-node-url": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims util builtin module 1`] = `
+"
+require('liferay-node-util');"
+`;
+
+exports[`when using Node.js modules shims util builtin module 2`] = `
+Object {
+  "liferay-node-util": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims v8 builtin module 1`] = `
+"
+require('liferay-node-v8');"
+`;
+
+exports[`when using Node.js modules shims v8 builtin module 2`] = `
+Object {
+  "liferay-node-v8": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims vm builtin module 1`] = `
+"
+require('liferay-node-vm');"
+`;
+
+exports[`when using Node.js modules shims vm builtin module 2`] = `
+Object {
+  "liferay-node-vm": "1.0.0",
+}
+`;
+
+exports[`when using Node.js modules shims zlib builtin module 1`] = `
+"
+require('liferay-node-zlib');"
+`;
+
+exports[`when using Node.js modules shims zlib builtin module 2`] = `
+Object {
+  "liferay-node-zlib": "1.0.0",
+}
+`;
