@@ -71,6 +71,7 @@ export default class PluginLogger {
 	}
 }
 
+// TODO: move this to babel-ipc when we release version 2.0.0 (would be a breaking change)
 global._PluginLogger_ = global._PluginLogger_ || {};
 
 /**
