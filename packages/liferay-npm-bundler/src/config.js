@@ -1,3 +1,4 @@
+import fs from 'fs';
 import {getPackageDir} from 'liferay-npm-build-tools-common/lib/packages';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
@@ -5,6 +6,7 @@ import resolveModule from 'resolve';
 
 let pluginsBaseDir = '.';
 let config = loadConfig();
+let programArgs = [];
 
 /**
  * Load configuration.
@@ -58,6 +60,23 @@ function configRequire(module) {
  */
 export function reloadConfig() {
 	config = loadConfig();
+	setProgramArgs(programArgs);
+}
+
+/**
+ * Set CLI arguments to be able to override some .npmbundlerrc options.
+ * @param {Array} args passed in CLI arguments
+ */
+export function setProgramArgs(args) {
+	programArgs = args;
+
+	if (args.includes('-r') || args.includes('--dump-report')) {
+		config['dump-report'] = true;
+	}
+
+	if (args.includes('--no-tracking')) {
+		config['no-tracking'] = true;
+	}
 }
 
 /**
@@ -188,6 +207,31 @@ export function getIncludeDependencies() {
  */
 export function isDumpReport() {
 	return config['dump-report'] || false;
+}
+
+/**
+ * Whether or not to track usage
+ * @return {boolean}
+ */
+export function isNoTracking() {
+	if (config['no-tracking'] === undefined) {
+		let dir = process.cwd();
+
+		while (
+			!fs.existsSync(
+				path.join(dir, '.liferay-npm-bundler-no-tracking')
+			) &&
+			path.resolve(dir, '..') !== dir
+		) {
+			dir = path.resolve(dir, '..');
+		}
+
+		config['no-tracking'] = fs.existsSync(
+			path.join(dir, '.liferay-npm-bundler-no-tracking')
+		);
+	}
+
+	return config['no-tracking'];
 }
 
 /**

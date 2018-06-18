@@ -20,16 +20,33 @@ import report from './report';
  * @return {void}
  */
 export default function(args) {
+	if (args[0] === '-h' || args[0] === '--help') {
+		console.log(
+			'Usage:',
+			'liferay-npm-bundler',
+			'[-h|--help]',
+			'[-v|--version]',
+			'[-r|--dump-report]',
+			'[--no-tracking]'
+		);
+		return;
+	}
+
 	const versionsInfo = config.getVersionsInfo();
 
 	if (args[0] === '-v' || args[0] === '--version') {
 		console.log(JSON.stringify(versionsInfo, null, 2));
 		return;
-	} else {
-		report.versionsInfo(versionsInfo);
 	}
 
-	insight.init().then(run);
+	config.setProgramArgs(args);
+	report.versionsInfo(versionsInfo);
+
+	if (config.isNoTracking()) {
+		run();
+	} else {
+		insight.init().then(run);
+	}
 }
 
 /**
