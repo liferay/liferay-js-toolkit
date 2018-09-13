@@ -1,6 +1,8 @@
 var fs = require('fs');
 var path = require('path');
 
+var CopyWebpackPlugin = require('copy-webpack-plugin');
+
 var cfg = {
     mode: 'development',
     devtool: 'source-map',
@@ -15,6 +17,15 @@ var cfg = {
         openPage: 'scripts/start',
         publicPath: '/o/<%= pkgName %>/'
     },
+    plugins: [
+        new CopyWebpackPlugin([
+            '../../src',
+            {
+                from: '../../css',
+                to: 'css'
+            }
+        ])
+    ]
 };
 
 var rules = JSON.parse(fs.readFileSync('webpack.rules.json'));
