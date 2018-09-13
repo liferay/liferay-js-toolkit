@@ -1,7 +1,11 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
-import {Copier, PkgJsonModifier, StylesCssModifier} from '../utils';
+import * as cfg from '../config';
+import {Copier} from '../utils';
+import PkgJsonModifier from '../utils/modifier/package.json';
+import StylesCssModifier from '../utils/css/styles.css';
+import WebpackRulesJsonModifier from '../utils/modifier/scripts/start/webpack.rules.json';
 
 /**
  * Implementation of generation of plain Javascript portlets.
@@ -24,13 +28,21 @@ export default class extends Generator {
 				name: 'useBabel',
 				message:
 					'Do you want to use Babel to transpile Javascript sources?',
-				default: true,
+				default: cfg.getDefaultAnswer(
+					'target-vanilla-portlet',
+					'useBabel',
+					true
+				),
 			},
 			{
 				type: 'confirm',
 				name: 'sampleWanted',
 				message: 'Do you want to generate sample code?',
-				default: false,
+				default: cfg.getDefaultAnswer(
+					'target-vanilla-portlet',
+					'sampleWanted',
+					false
+				),
 			},
 		]);
 	}
@@ -42,6 +54,7 @@ export default class extends Generator {
 		const cp = new Copier(this);
 		const pkgJson = new PkgJsonModifier(this);
 		const stylesCss = new StylesCssModifier(this);
+		const webpackRulesJson = new WebpackRulesJsonModifier(this);
 		const {useBabel, sampleWanted} = this.answers;
 
 		if (useBabel) {
@@ -58,6 +71,9 @@ export default class extends Generator {
 		pkgJson.setMain('index.js');
 		if (useBabel) {
 			cp.copyFile('src/index.babel.js', {dest: 'src/index.js'});
+
+			pkgJson.addDevDependency('babel-loader', '^7.0.0');
+			webpackRulesJson.addRule(/src\/.*\.js$/, 'babel-loader');
 		} else {
 			cp.copyFile('src/index.nobabel.js', {dest: 'src/index.js'});
 		}

@@ -1,7 +1,9 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
-import {Copier, PkgJsonModifier} from '../utils';
+import * as cfg from '../config';
+import {Copier} from '../utils';
+import PkgJsonModifier from '../utils/modifier/package.json';
 
 /**
  * Implementation of generation of export bundles.
@@ -23,7 +25,11 @@ export default class extends Generator {
 				type: 'confirm',
 				name: 'createInitializer',
 				message: 'Does your export bundle need an initializer?',
-				default: false,
+				default: cfg.getDefaultAnswer(
+					'target-export-bundle',
+					'createInitializer',
+					false
+				),
 			},
 		]);
 	}

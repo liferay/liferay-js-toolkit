@@ -1,8 +1,12 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
+import * as cfg from '../config';
 import dependenciesJson from './dependencies.json';
-import {Copier, PkgJsonModifier, StylesCssModifier} from '../utils';
+import {Copier} from '../utils';
+import PkgJsonModifier from '../utils/modifier/package.json';
+import StylesCssModifier from '../utils/css/styles.css';
+import WebpackRulesJsonModifier from '../utils/modifier/scripts/start/webpack.rules.json';
 
 /**
  * Implementation of generation of React portlets.
@@ -24,7 +28,11 @@ export default class extends Generator {
 				type: 'confirm',
 				name: 'sampleWanted',
 				message: 'Do you want to generate sample code?',
-				default: false,
+				default: cfg.getDefaultAnswer(
+					'target-react-portlet',
+					'sampleWanted',
+					false
+				),
 			},
 		]);
 	}
@@ -36,6 +44,7 @@ export default class extends Generator {
 		const cp = new Copier(this);
 		const pkgJson = new PkgJsonModifier(this);
 		const stylesCss = new StylesCssModifier(this);
+		const webpackRulesJson = new WebpackRulesJsonModifier(this);
 		const {sampleWanted} = this.answers;
 
 		pkgJson.mergeDependencies(dependenciesJson);
@@ -44,6 +53,9 @@ export default class extends Generator {
 
 		pkgJson.setMain('index.js');
 		cp.copyFile('src/index.js');
+
+		pkgJson.addDevDependency('babel-loader', '^7.0.0');
+		webpackRulesJson.addRule(/src\/.*\.js$/, 'babel-loader');
 
 		if (sampleWanted) {
 			cp.copyDir('src');

@@ -3,7 +3,8 @@ import path from 'path';
 import Generator from 'yeoman-generator';
 
 import * as cfg from '../config';
-import {Copier, PkgJsonModifier} from '../utils';
+import {Copier} from '../utils';
+import PkgJsonModifier from '../utils/modifier/package.json';
 
 /**
  * Generator to add deploy support to projects.
@@ -26,7 +27,11 @@ export default class extends Generator {
 				name: 'liferayPresent',
 				message:
 					'Do you have a local installation of Liferay for development?',
-				default: true,
+				default: cfg.getDefaultAnswer(
+					'facet-deploy',
+					'liferayPresent',
+					true
+				),
 			},
 		]);
 
@@ -39,7 +44,11 @@ export default class extends Generator {
 				type: 'input',
 				name: 'liferayDir',
 				message: 'Where is your local installation of Liferay placed?',
-				default: cfg.getDefaultDeployDir(),
+				default: cfg.getDefaultAnswer(
+					'facet-deploy',
+					'liferayDir',
+					'/liferay'
+				),
 				validate: validateLiferayDir,
 			},
 		]);

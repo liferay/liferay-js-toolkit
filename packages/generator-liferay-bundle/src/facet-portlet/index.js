@@ -1,7 +1,10 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
-import {Copier, NpmbundlerrcModifier, PkgJsonModifier} from '../utils';
+import * as cfg from '../config';
+import {Copier} from '../utils';
+import NpmbundlerrcModifier from '../utils/modifier/npmbundlerrc';
+import PkgJsonModifier from '../utils/modifier/package.json';
 
 /**
  * Generator to add portlet support to projects.
@@ -23,7 +26,11 @@ export default class extends Generator {
 				type: 'input',
 				name: 'category',
 				message: 'Under which category should your portlet be listed?',
-				default: 'category.sample',
+				default: cfg.getDefaultAnswer(
+					'facet-portlet',
+					'category',
+					'category.sample'
+				),
 			},
 		]);
 	}

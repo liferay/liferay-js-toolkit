@@ -1,14 +1,14 @@
 import path from 'path';
 import Generator from 'yeoman-generator';
 
+import * as cfg from '../config';
 import dependenciesJson from './dependencies.json';
 import importsJson from './imports.json';
-import {
-	Copier,
-	NpmbundlerrcModifier,
-	PkgJsonModifier,
-	StylesCssModifier,
-} from '../utils';
+import {Copier} from '../utils';
+import NpmbundlerrcModifier from '../utils/modifier/npmbundlerrc';
+import PkgJsonModifier from '../utils/modifier/package.json';
+import StylesCssModifier from '../utils/css/styles.css';
+import WebpackRulesJsonModifier from '../utils/modifier/scripts/start/webpack.rules.json';
 
 /**
  * Implementation of generation of Metal.js portlets.
@@ -31,13 +31,21 @@ export default class extends Generator {
 				name: 'importMetaljs',
 				message:
 					'Do you want to import Metal.js packages from Liferay?',
-				default: true,
+				default: cfg.getDefaultAnswer(
+					'target-metaljs-portlet',
+					'importMetaljs',
+					true
+				),
 			},
 			{
 				type: 'confirm',
 				name: 'sampleWanted',
 				message: 'Do you want to generate sample code?',
-				default: false,
+				default: cfg.getDefaultAnswer(
+					'target-metaljs-portlet',
+					'sampleWanted',
+					false
+				),
 			},
 		]);
 	}
@@ -50,6 +58,7 @@ export default class extends Generator {
 		const npmbundlerrc = new NpmbundlerrcModifier(this);
 		const pkgJson = new PkgJsonModifier(this);
 		const stylesCss = new StylesCssModifier(this);
+		const webpackRulesJson = new WebpackRulesJsonModifier(this);
 		const {importMetaljs, sampleWanted} = this.answers;
 
 		if (importMetaljs) {
@@ -64,6 +73,9 @@ export default class extends Generator {
 
 		pkgJson.setMain('index.js');
 		cp.copyFile('src/index.js');
+
+		pkgJson.addDevDependency('babel-loader', '^7.0.0');
+		webpackRulesJson.addRule(/src\/.*\.js$/, 'babel-loader');
 
 		if (sampleWanted) {
 			cp.copyDir('src');
