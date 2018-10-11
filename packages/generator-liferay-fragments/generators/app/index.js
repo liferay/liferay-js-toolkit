@@ -1,5 +1,5 @@
-const chalk = require('chalk');
 const CustomGenerator = require('../../utils/custom-generator');
+const { log, logNewLine } = require('../../utils/log');
 const voca = require('voca');
 
 const {
@@ -52,8 +52,7 @@ class AppGenerator extends CustomGenerator {
   }
 
   writing() {
-    this.log('');
-    this.log(chalk.blue('Creating directory'));
+    logNewLine('Creating directory');
 
     this.copyTemplates(this.destinationRoot(), [
       '.editorconfig',
@@ -62,13 +61,13 @@ class AppGenerator extends CustomGenerator {
       '.yo-rc.json',
       'package.json',
       'README.md',
-      'scripts/compress.js'
+      'scripts/compress.js',
+      'scripts/log.js'
     ]);
   }
 
   install() {
-    this.log('');
-    this.log(chalk.blue('Installing dependencies'));
+    logNewLine('Installing dependencies');
 
     this.npmInstall(['chalk', 'glob', 'jszip'], {
       loglevel: 'silent',
@@ -79,7 +78,7 @@ class AppGenerator extends CustomGenerator {
 
   end() {
     if (this.getValue(ADD_SAMPLE_CONTENT_VAR)) {
-      this.log(chalk.blue('Adding sample content'));
+      logNewLine('Adding sample content');
 
       this.composeWith(require.resolve('../collection'), {
         [COLLECTION_NAME_VAR]: COLLECTION_NAME_SAMPLE,
@@ -92,22 +91,19 @@ class AppGenerator extends CustomGenerator {
     }
 
     setTimeout(() => {
-      this.log('');
-      this.log(chalk.blue('Done!'));
-      this.log(chalk.blue("You're ready to create fragments."));
+      logNewLine('Done!');
+      log("You're ready to create fragments.");
     }, 100);
   }
 
   _logWelcome() {
-    this.log(
-      chalk.blue(`
+    log(`
     __    ____________________  _____  __
     / /   /  _/ ____/ ____/ __ \\/   \\ \\/ /
   / /    / // /_  / __/ / /_/ / /| |\\  /
   / /____/ // __/ / /___/ _, _/ ___ |/ /
 /_____/___/_/   /_____/_/ |_/_/  |_/_/
-    `)
-    );
+    `);
   }
 }
 

@@ -1,12 +1,13 @@
 const chalk = require('chalk');
 const fs = require('fs');
 const glob = require('glob');
+const { log, logNewLine, logIndent, logSecondary} = require('./log');
 const JSZip = require('jszip');
 const path = require('path');
 
 const zip = new JSZip();
 
-console.log(chalk.blue('Generating zip file'));
+logNewLine('Generating zip file');
 
 glob.sync(`${__dirname}/../src/*/collection.json`)
   .map(collectionJSON => path.resolve(`${collectionJSON}/..`))
@@ -14,15 +15,14 @@ glob.sync(`${__dirname}/../src/*/collection.json`)
     const collectionName = path.basename(collectionDirectory);
     const rest = collectionDirectory.replace(collectionName, '');
 
-    console.log('');
-    console.log(chalk.blue(`Collection: ${collectionName}`));
+    logNewLine(`Collection ${chalk.reset(collectionName)}`);
 
     glob.sync(`${collectionDirectory}/*/fragment.json`)
       .map(fragmentJSON => path.resolve(`${fragmentJSON}/..`))
       .forEach(fragmentDirectory => {
         const fragmentName = path.basename(fragmentDirectory);
 
-        console.log(chalk.blue(`  Fragment: ${fragmentName}`));
+        logIndent(`fragment ${chalk.reset(fragmentName)}`);
 
         glob.sync(`${fragmentDirectory}/**/*`)
           .filter(fragmentFilePath => fs.lstatSync(fragmentFilePath).isFile())
@@ -40,9 +40,7 @@ zip
 .generateNodeStream({type:'nodebuffer',streamFiles:true})
 .pipe(fs.createWriteStream('fragments.zip'))
 .on('finish', () => {
-  console.log('');
-  console.log(chalk.blue('fragments.zip file created '));
-  console.log(chalk.blue('Import them to your liferay-portal to start using them:'));
-  console.log('');
-  console.log(chalk.gray('https://dev.liferay.com/discover/portal/-/knowledge_base/7-1/exporting-and-importing-fragments#importing-collections'))
+  logNewLine('fragments.zip file created ');
+  log('Import them to your liferay-portal to start using them:');
+  logSecondary('https://dev.liferay.com/discover/portal/-/knowledge_base/7-1/exporting-and-importing-fragments#importing-collections');
 });
