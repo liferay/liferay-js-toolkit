@@ -1,5 +1,9 @@
-# generator-liferay-fragments [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
-> 
+# generator-liferay-fragments
+
+## Requirements
+
+- NodeJS 8+
+- NPM 6+
 
 ## Installation
 
@@ -14,23 +18,6 @@ Then generate your new project:
 
 ```bash
 yo liferay-fragments
+yo liferay-fragments:collection
+yo liferay-fragments:fragment
 ```
-
-## Getting To Know Yeoman
-
- * Yeoman has a heart of gold.
- * Yeoman is a person with feelings and opinions, but is very easy to work with.
- * Yeoman can be too opinionated at times but is easily convinced not to be.
- * Feel free to [learn more about Yeoman](http://yeoman.io/).
-
-## License
-
-MIT © [Pablo Molina]()
-
-
-[npm-image]: https://badge.fury.io/js/generator-liferay-fragments.svg
-[npm-url]: https://npmjs.org/package/generator-liferay-fragments
-[travis-image]: https://travis-ci.org/p2kmgcl/generator-liferay-fragments.svg?branch=master
-[travis-url]: https://travis-ci.org/p2kmgcl/generator-liferay-fragments
-[daviddm-image]: https://david-dm.org/p2kmgcl/generator-liferay-fragments.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/p2kmgcl/generator-liferay-fragments

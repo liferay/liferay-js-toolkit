@@ -23,6 +23,9 @@ const {
 } = require('../../utils/constants');
 
 class AppGenerator extends CustomGenerator {
+  /**
+   * @inheritdoc
+   */
   async prompting() {
     this._logWelcome();
 
@@ -51,6 +54,9 @@ class AppGenerator extends CustomGenerator {
     );
   }
 
+  /**
+   * @inheritdoc
+   */
   writing() {
     logNewLine('Creating directory');
 
@@ -66,6 +72,9 @@ class AppGenerator extends CustomGenerator {
     ]);
   }
 
+  /**
+   * @inheritdoc
+   */
   install() {
     logNewLine('Installing dependencies');
 
@@ -76,6 +85,9 @@ class AppGenerator extends CustomGenerator {
     });
   }
 
+  /**
+   * @inheritdoc
+   */
   end() {
     if (this.getValue(ADD_SAMPLE_CONTENT_VAR)) {
       logNewLine('Adding sample content');
@@ -96,6 +108,9 @@ class AppGenerator extends CustomGenerator {
     }, 100);
   }
 
+  /**
+   * Logs a welcome message to the console.
+   */
   _logWelcome() {
     log(`
     __    ____________________  _____  __

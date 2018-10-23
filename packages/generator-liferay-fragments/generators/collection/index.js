@@ -14,6 +14,9 @@ const {
 } = require('../../utils/constants');
 
 module.exports = class extends CustomGenerator {
+  /**
+   * @inheritdoc
+   */
   async prompting() {
     await this.ask([
       {
@@ -38,12 +41,18 @@ module.exports = class extends CustomGenerator {
     );
   }
 
+  /**
+   * @inheritdoc
+   */
   writing() {
     this.copyTemplates(`src/${this.getValue(COLLECTION_SLUG_VAR)}`, [
       'collection.json'
     ]);
   }
 
+  /**
+   * @inheritdoc
+   */
   end() {
     const fragmentName = this.getValue(FRAGMENT_NAME_VAR);
 

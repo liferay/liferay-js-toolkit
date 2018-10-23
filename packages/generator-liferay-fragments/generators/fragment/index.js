@@ -19,11 +19,17 @@ const {
 } = require('../../utils/constants');
 
 module.exports = class extends CustomGenerator {
+  /**
+   * @inheritdoc
+   */
   async prompting() {
     await this._askFragmentData();
     await this._askCollection();
   }
 
+  /**
+   * @inheritdoc
+   */
   writing() {
     if (this.getValue(FRAGMENT_COLLECTION_SLUG_VAR) === NEW_COLLECTION_VALUE) {
       this.composeWith(require.resolve('../collection'), {
@@ -46,6 +52,11 @@ module.exports = class extends CustomGenerator {
     }
   }
 
+  /**
+   * Request a collection for the created fragment.
+   * Available options are fetched in _getCollectionChoices method.
+   * @see _getCollectionChoices
+   */
   async _askCollection() {
     await this.ask({
       type: 'list',
@@ -56,6 +67,9 @@ module.exports = class extends CustomGenerator {
     });
   }
 
+  /**
+   * Requests fragment information and sets the fragment slug.
+   */
   async _askFragmentData() {
     await this.ask([
       {
@@ -80,6 +94,13 @@ module.exports = class extends CustomGenerator {
     );
   }
 
+  /**
+   * Read the list of created collections from the project structure
+   * and returns a list of choices. It also adds an extra 'new collection'
+   * option for adding new collections.
+   * @return {Array<{name:string, value: string, short: string}>} List of
+   *  choices parseable by yeoman's ask method.
+   */
   _getCollectionChoices() {
     let choices = [];
 
