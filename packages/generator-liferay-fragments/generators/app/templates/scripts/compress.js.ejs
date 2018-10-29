@@ -15,6 +15,11 @@ glob.sync(`${__dirname}/../src/*/collection.json`)
     const collectionName = path.basename(collectionDirectory);
     const rest = collectionDirectory.replace(collectionName, '');
 
+    zip.file(
+      `${collectionName}/collection.json`,
+      fs.readFileSync(path.resolve(collectionDirectory, 'collection.json'), 'utf-8')
+    );
+
     logNewLine(`Collection ${chalk.reset(collectionName)}`);
 
     glob.sync(`${collectionDirectory}/*/fragment.json`)
