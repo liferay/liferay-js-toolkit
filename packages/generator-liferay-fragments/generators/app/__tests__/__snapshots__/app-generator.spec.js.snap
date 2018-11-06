@@ -1,0 +1,251 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`fragment-generator allows a custom repository name 1`] = `
+Object {
+  "_path": "package.json",
+  "content": "{
+  \\"name\\": \\"my-nice-custom-repository\\",
+  \\"version\\": \\"1.0.0\\",
+
+  \\"keywords\\": [
+    \\"liferay-fragments\\"
+  ],
+
+  \\"scripts\\": {
+    \\"build\\": \\"node scripts/compress.js\\"
+  }
+}
+",
+}
+`;
+
+exports[`fragment-generator allows adding sample content 1`] = `
+Object {
+  "_path": "package.json",
+  "content": "{
+  \\"name\\": \\"sample-liferay-fragments\\",
+  \\"version\\": \\"1.0.0\\",
+
+  \\"keywords\\": [
+    \\"liferay-fragments\\"
+  ],
+
+  \\"scripts\\": {
+    \\"build\\": \\"node scripts/compress.js\\"
+  }
+}
+",
+}
+`;
+
+exports[`fragment-generator allows adding sample content 2`] = `
+Object {
+  "_path": "fragment.json",
+  "content": "{
+  \\"cssPath\\": \\"styles.css\\",
+  \\"htmlPath\\": \\"index.html\\",
+  \\"jsPath\\": \\"main.js\\",
+  \\"name\\": \\"Sample fragment\\"
+}
+",
+}
+`;
+
+exports[`fragment-generator allows adding sample content 3`] = `
+Object {
+  "_path": "index.html",
+  "content": "<div class=\\"sample-fragment\\">
+  Sample fragment
+</div>
+",
+}
+`;
+
+exports[`fragment-generator allows adding sample content 4`] = `
+Object {
+  "_path": "styles.css",
+  "content": ".sample-fragment {
+  color: inherit;
+}
+",
+}
+`;
+
+exports[`fragment-generator allows adding sample content 5`] = `
+Object {
+  "_path": "main.js",
+  "content": "const content = fragmentElement.querySelector('.sample-fragment');
+",
+}
+`;
+
+exports[`fragment-generator generates a new project 1`] = `
+Object {
+  "_path": ".editorconfig",
+  "content": "root = true
+
+[*]
+indent_style = space
+indent_size = 2
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.md]
+trim_trailing_whitespace = false
+",
+}
+`;
+
+exports[`fragment-generator generates a new project 2`] = `
+Object {
+  "_path": ".eslintrc",
+  "content": "{
+  \\"extends\\": \\"eslint:recommended\\"
+}
+",
+}
+`;
+
+exports[`fragment-generator generates a new project 3`] = `
+Object {
+  "_path": ".gitignore",
+  "content": "node_modules/
+
+fragments.zip
+",
+}
+`;
+
+exports[`fragment-generator generates a new project 4`] = `
+Object {
+  "_path": ".yo-rc.json",
+  "content": "{}
+",
+}
+`;
+
+exports[`fragment-generator generates a new project 5`] = `
+Object {
+  "_path": "package.json",
+  "content": "{
+  \\"name\\": \\"sample-liferay-fragments\\",
+  \\"version\\": \\"1.0.0\\",
+
+  \\"keywords\\": [
+    \\"liferay-fragments\\"
+  ],
+
+  \\"scripts\\": {
+    \\"build\\": \\"node scripts/compress.js\\"
+  }
+}
+",
+}
+`;
+
+exports[`fragment-generator generates a new project 6`] = `
+Object {
+  "_path": "scripts/compress.js",
+  "content": "const chalk = require('chalk');
+const fs = require('fs');
+const glob = require('glob');
+const { log, logNewLine, logIndent, logSecondary} = require('./log');
+const JSZip = require('jszip');
+const path = require('path');
+
+const compress = (basePath) => new Promise((resolve) => {
+  const zip = new JSZip();
+
+  logNewLine('Generating zip file');
+
+  glob.sync(path.join(basePath, 'src', '*', 'collection.json'))
+    .map(collectionJSON => path.resolve(collectionJSON, '..'))
+    .forEach(collectionDirectory => {
+      const collectionName = path.basename(collectionDirectory);
+      const rest = collectionDirectory.replace(collectionName, '');
+
+      zip.file(
+        path.join(collectionName, 'collection.json'),
+        fs.readFileSync(path.resolve(collectionDirectory, 'collection.json'), 'utf-8')
+      );
+
+      logNewLine(\`Collection \${chalk.reset(collectionName)}\`);
+
+      glob.sync(path.join(collectionDirectory, '*', 'fragment.json'))
+        .map(fragmentJSON => path.resolve(fragmentJSON, '..'))
+        .forEach(fragmentDirectory => {
+          const fragmentName = path.basename(fragmentDirectory);
+
+          logIndent(\`fragment \${chalk.reset(fragmentName)}\`);
+
+          glob.sync(path.join(fragmentDirectory, '**', '*'))
+            .filter(fragmentFilePath => fs.lstatSync(fragmentFilePath).isFile())
+            .map(fragmentFilePath => path.resolve(fragmentFilePath))
+            .map(fragmentFilePath => ({
+              fragmentFileContent: fs.readFileSync(fragmentFilePath, 'utf-8'),
+              fragmentFileLocalPath: fragmentFilePath.replace(rest, '')
+            }))
+            .forEach(({ fragmentFileContent, fragmentFileLocalPath }) => {
+              zip.file(fragmentFileLocalPath, fragmentFileContent);
+            });
+        });
+    });
+
+  zip
+  .generateNodeStream({type:'nodebuffer',streamFiles:true})
+  .pipe(fs.createWriteStream(path.join(basePath, 'fragments.zip')))
+  .on('finish', () => {
+    logNewLine('fragments.zip file created ');
+    log('Import them to your liferay-portal to start using them:');
+    logSecondary('https://dev.liferay.com/discover/portal/-/knowledge_base/7-1/exporting-and-importing-fragments#importing-collections');
+    resolve();
+  });
+});
+
+if (process.env.NODE_ENV !== 'test') {
+  compress(path.join(__dirname, '..'));
+}
+
+module.exports = compress;
+",
+}
+`;
+
+exports[`fragment-generator generates a new project 7`] = `
+Object {
+  "_path": "scripts/log.js",
+  "content": "const chalk = require('chalk');
+
+function log(message) {
+  if (process.env.NODE_ENV !== 'test') {
+    console.log(chalk.green(message));
+  }
+}
+
+function logIndent(message) {
+  log(\`  \${message}\`);
+}
+
+function logNewLine(message) {
+  if (process.env.NODE_ENV !== 'test') {
+    console.log('');
+    log(message);
+  }
+}
+
+function logSecondary(message) {
+  if (process.env.NODE_ENV !== 'test') {
+    console.log(message);
+  }
+}
+
+module.exports = {
+  log,
+  logIndent,
+  logNewLine,
+  logSecondary
+};
+",
+}
+`;

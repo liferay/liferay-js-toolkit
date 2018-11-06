@@ -39,6 +39,8 @@ module.exports = class extends CustomGenerator {
       COLLECTION_SLUG_VAR,
       voca.slugify(this.getValue(COLLECTION_NAME_VAR))
     );
+
+    this.isRequired(COLLECTION_SLUG_VAR);
   }
 
   /**

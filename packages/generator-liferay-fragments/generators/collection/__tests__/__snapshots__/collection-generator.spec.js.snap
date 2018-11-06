@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`collection-generator accepts no description 1`] = `
+"{
+  \\"description\\": \\"\\",
+  \\"name\\": \\"Sample Collection\\"
+}
+"
+`;
+
+exports[`collection-generator generates a new collection 1`] = `
+"{
+  \\"description\\": \\"Sample Description\\",
+  \\"name\\": \\"Sample Collection\\"
+}
+"
+`;

@@ -5,7 +5,9 @@ const chalk = require('chalk');
  * @param {string} message Message content
  */
 function log(message) {
-  console.log(chalk.green(message));
+  if (process.env.NODE_ENV !== 'test') {
+    console.log(chalk.green(message));
+  }
 }
 
 /**
@@ -21,8 +23,10 @@ function logIndent(message) {
  * @param {string} message Message content
  */
 function logNewLine(message) {
-  console.log('');
-  log(message);
+  if (process.env.NODE_ENV !== 'test') {
+    console.log('');
+    log(message);
+  }
 }
 
 /**
@@ -30,7 +34,9 @@ function logNewLine(message) {
  * @param {string} message Message content
  */
 function logSecondary(message) {
-  console.log(message);
+  if (process.env.NODE_ENV !== 'test') {
+    console.log(message);
+  }
 }
 
 module.exports = {

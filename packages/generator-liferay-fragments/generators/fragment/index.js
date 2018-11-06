@@ -37,6 +37,9 @@ module.exports = class extends CustomGenerator {
         [FRAGMENT_DESCRIPTION_VAR]: this.getValue(FRAGMENT_DESCRIPTION_VAR)
       });
     } else {
+      this.isRequired(FRAGMENT_COLLECTION_SLUG_VAR);
+      this.isRequired(FRAGMENT_SLUG_VAR);
+
       const basePath = path.join(
         'src',
         this.getValue(FRAGMENT_COLLECTION_SLUG_VAR),

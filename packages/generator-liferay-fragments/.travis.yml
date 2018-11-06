@@ -1,6 +1,13 @@
 language: node_js
+
 node_js:
-  - v10
-  - v8
-  - v6
-  - v4
+  - 8
+  - 10
+
+os:
+  - linux
+  - osx
+  - windows
+
+script:
+  - npm it

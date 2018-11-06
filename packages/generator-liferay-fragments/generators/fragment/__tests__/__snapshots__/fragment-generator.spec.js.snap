@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`fragment-generator accepts no description 1`] = `
+"{
+  \\"cssPath\\": \\"styles.css\\",
+  \\"htmlPath\\": \\"index.html\\",
+  \\"jsPath\\": \\"main.js\\",
+  \\"name\\": \\"Sample Fragment\\"
+}
+"
+`;
+
+exports[`fragment-generator accepts no description 2`] = `
+"<div class=\\"sample-fragment\\">
+  Sample Fragment
+</div>
+"
+`;
+
+exports[`fragment-generator accepts no description 3`] = `
+".sample-fragment {
+  color: inherit;
+}
+"
+`;
+
+exports[`fragment-generator accepts no description 4`] = `
+"const content = fragmentElement.querySelector('.sample-fragment');
+"
+`;
+
+exports[`fragment-generator generates a new fragment 1`] = `
+"{
+  \\"cssPath\\": \\"styles.css\\",
+  \\"htmlPath\\": \\"index.html\\",
+  \\"jsPath\\": \\"main.js\\",
+  \\"name\\": \\"Sample Fragment\\"
+}
+"
+`;
+
+exports[`fragment-generator generates a new fragment 2`] = `
+"<div class=\\"sample-fragment\\">
+  Sample Fragment
+</div>
+"
+`;
+
+exports[`fragment-generator generates a new fragment 3`] = `
+".sample-fragment {
+  color: inherit;
+}
+"
+`;
+
+exports[`fragment-generator generates a new fragment 4`] = `
+"const content = fragmentElement.querySelector('.sample-fragment');
+"
+`;
