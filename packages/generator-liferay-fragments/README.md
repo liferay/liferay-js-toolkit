@@ -1,5 +1,7 @@
 # generator-liferay-fragments
 
+Yeoman generator for creating and maintaining Liferay Fragment projects
+
 ## Requirements
 
 - NodeJS 8+

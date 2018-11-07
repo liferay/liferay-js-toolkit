@@ -1,12 +1,12 @@
 {
   "name": "generator-liferay-fragments",
   "version": "0.1.2",
-  "description": "",
-  "homepage": "",
+  "description": "Yeoman generator for creating and maintaining Liferay Fragment projects",
+  "homepage": "https://www.npmjs.com/package/generator-liferay-fragments",
   "author": {
     "name": "Pablo Molina",
     "email": "contact@pablomolina.me",
-    "url": ""
+    "url": "https://pablomolina.me"
   },
   "files": [
     "generators",
