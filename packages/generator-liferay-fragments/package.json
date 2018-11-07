@@ -1,6 +1,6 @@
 {
   "name": "generator-liferay-fragments",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Yeoman generator for creating and maintaining Liferay Fragment projects",
   "homepage": "https://www.npmjs.com/package/generator-liferay-fragments",
   "author": {
