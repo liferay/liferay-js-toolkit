@@ -4,7 +4,10 @@ const YeomanTest = require('yeoman-test');
 
 function expectFile(base, _path) {
   const content = fs.readFileSync(path.join(base, _path), 'utf-8');
-  return expect({ _path, content }).toMatchSnapshot();
+  return expect({
+    _path: _path.split(path.sep).join('/'),
+    content
+  }).toMatchSnapshot();
 }
 
 function expectFiles(base, paths) {
