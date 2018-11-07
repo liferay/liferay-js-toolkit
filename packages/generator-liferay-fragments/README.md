@@ -4,6 +4,7 @@
 
 - NodeJS 8+
 - NPM 6+
+- Yeoman 2+
 
 ## Installation
 
