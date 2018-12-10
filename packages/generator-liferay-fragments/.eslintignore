@@ -1,2 +1,4 @@
 coverage
-**/templates
+node_modules
+
+generators/compress/__tests__/assets/main.js

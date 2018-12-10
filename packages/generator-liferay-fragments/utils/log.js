@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 const chalk = require('chalk');
 
 /**
@@ -7,6 +9,28 @@ const chalk = require('chalk');
 function log(message) {
   if (process.env.NODE_ENV !== 'test') {
     console.log(chalk.green(message));
+  }
+}
+
+/**
+ * Logs data with different styles
+ * @param {string} message Main message
+ * @param {string} data Associated data
+ */
+function logData(message, data) {
+  if (process.env.NODE_ENV !== 'test') {
+    console.log(`${chalk.green(message)} ${chalk.bold(data)}`);
+  }
+}
+
+/**
+ * Logs an error message to the console
+ * @param {string} message Message content
+ */
+function logError(message) {
+  if (process.env.NODE_ENV !== 'test') {
+    console.log('');
+    console.log(chalk.red(message));
   }
 }
 
@@ -41,6 +65,8 @@ function logSecondary(message) {
 
 module.exports = {
   log,
+  logData,
+  logError,
   logIndent,
   logNewLine,
   logSecondary

@@ -1,5 +1,5 @@
 {
-  "name": "<%= repositorySlug %>",
+  "name": "<%= projectSlug %>",
   "version": "1.0.0",
 
   "keywords": [
@@ -7,6 +7,9 @@
   ],
 
   "scripts": {
-    "build": "node scripts/compress.js"
+    "add-collection": "yo liferay-fragments:collection",
+    "add-fragment": "yo liferay-fragments:fragment",
+    "compress": "yo liferay-fragments:compress",
+    "import": "yo liferay-fragments:import"
   }
 }

@@ -1,11 +1,14 @@
 const fs = require('fs');
+const glob = require('glob');
 const path = require('path');
 const YeomanTest = require('yeoman-test');
 
 function expectFile(base, _path) {
-  const content = fs.readFileSync(path.join(base, _path), 'utf-8');
+  const filePath = path.join(base, _path);
+  const content = fs.readFileSync(filePath, 'utf-8');
+
   return expect({
-    _path: _path.split(path.sep).join('/'),
+    filePath: _path.split(path.sep).join('/'),
     content
   }).toMatchSnapshot();
 }
@@ -14,45 +17,43 @@ function expectFiles(base, paths) {
   return paths.map(_path => expectFile(base, _path));
 }
 
-describe('fragment-generator', () => {
+function expectProjectFiles(base) {
+  const templatesPath = path.resolve(__dirname, '..', 'templates');
+
+  return expectFiles(
+    base,
+    glob.sync(`${templatesPath}/**/*`).map(templatePath =>
+      path
+        .resolve(templatePath)
+        .replace(templatesPath, '')
+        .replace(/\.ejs$/i, '')
+    )
+  );
+}
+
+describe('app-generator', () => {
   it('generates a new project', () =>
     YeomanTest.run(path.join(__dirname, '..')).then(projectPath =>
-      expectFiles(path.join(projectPath, 'sample-liferay-fragments'), [
-        '.editorconfig',
-        '.eslintrc',
-        '.gitignore',
-        '.yo-rc.json',
-        'package.json',
-        path.join('scripts', 'compress.js'),
-        path.join('scripts', 'log.js')
-      ])
+      expectProjectFiles(path.join(projectPath, 'sample-liferay-fragments'))
     ));
 
   it('allows a custom repository name', () =>
     YeomanTest.run(path.join(__dirname, '..'))
-      .withPrompts({ repositoryName: 'My Nice Custom Repository' })
+      .withPrompts({ projectName: 'My Nice Custom Project' })
       .then(projectPath =>
-        expectFiles(path.join(projectPath, 'my-nice-custom-repository'), [
-          'package.json'
-        ])
+        expectProjectFiles(path.join(projectPath, 'my-nice-custom-project'))
       ));
 
   it('allows adding sample content', () =>
     YeomanTest.run(path.join(__dirname, '..'))
       .withPrompts({ addSampleContent: true })
       .then(projectPath => {
-        expectFiles(path.join(projectPath, 'sample-liferay-fragments'), [
-          'package.json'
-        ]);
+        const contentPath = path.join(projectPath, 'sample-liferay-fragments');
+
+        expectProjectFiles(contentPath);
 
         expectFiles(
-          path.join(
-            projectPath,
-            'sample-liferay-fragments',
-            'src',
-            'sample-collection',
-            'sample-fragment'
-          ),
+          path.join(contentPath, 'src', 'sample-collection', 'sample-fragment'),
           ['fragment.json', 'index.html', 'styles.css', 'main.js']
         );
       }));
