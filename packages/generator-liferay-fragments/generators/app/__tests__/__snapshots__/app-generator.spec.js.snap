@@ -14,7 +14,9 @@ Object {
     \\"add-collection\\": \\"yo liferay-fragments:collection\\",
     \\"add-fragment\\": \\"yo liferay-fragments:fragment\\",
     \\"compress\\": \\"yo liferay-fragments:compress\\",
-    \\"import\\": \\"yo liferay-fragments:import\\"
+    \\"export\\": \\"yo liferay-fragments:export\\",
+    \\"import\\": \\"yo liferay-fragments:import\\",
+    \\"import:watch\\": \\"yo liferay-fragments:import --watch\\"
   }
 }
 ",
@@ -44,7 +46,9 @@ Object {
     \\"add-collection\\": \\"yo liferay-fragments:collection\\",
     \\"add-fragment\\": \\"yo liferay-fragments:fragment\\",
     \\"compress\\": \\"yo liferay-fragments:compress\\",
-    \\"import\\": \\"yo liferay-fragments:import\\"
+    \\"export\\": \\"yo liferay-fragments:export\\",
+    \\"import\\": \\"yo liferay-fragments:import\\",
+    \\"import:watch\\": \\"yo liferay-fragments:import --watch\\"
   }
 }
 ",
@@ -115,7 +119,9 @@ Object {
     \\"add-collection\\": \\"yo liferay-fragments:collection\\",
     \\"add-fragment\\": \\"yo liferay-fragments:fragment\\",
     \\"compress\\": \\"yo liferay-fragments:compress\\",
-    \\"import\\": \\"yo liferay-fragments:import\\"
+    \\"export\\": \\"yo liferay-fragments:export\\",
+    \\"import\\": \\"yo liferay-fragments:import\\",
+    \\"import:watch\\": \\"yo liferay-fragments:import --watch\\"
   }
 }
 ",

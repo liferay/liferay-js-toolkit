@@ -19,6 +19,27 @@ async function importProject(api, groupId, project) {
 }
 
 /**
+ * Checks if the given existingFragment is outdated comparing
+ * with the given fragment.
+ * @param {object} existingFragment Server fragment
+ * @param {object} fragment Local fragment
+ * @return {boolean} True if it has any new change
+ */
+function _fragmentHasChanges(existingFragment, fragment) {
+  const hasChanges =
+    fragment.css !== existingFragment.css ||
+    fragment.html !== existingFragment.html ||
+    fragment.js !== existingFragment.js ||
+    fragment.metadata.name !== existingFragment.name;
+
+  if (!hasChanges) {
+    logData('Up-to-date', fragment.metadata.name);
+  }
+
+  return hasChanges;
+}
+
+/**
  * Imports a collection to server
  * @param {function} api Wrapped API with valid host and authorization
  * @param {string} groupId Group ID
@@ -67,8 +88,6 @@ async function _importCollection(api, groupId, collection) {
  * @param {object} fragment Fragment
  */
 async function _importFragment(api, groupId, existingCollection, fragment) {
-  logData('Importing fragment', fragment.metadata.name);
-
   try {
     await api('/fragment.fragmententry/add-fragment-entry', {
       groupId,
@@ -80,6 +99,8 @@ async function _importFragment(api, groupId, existingCollection, fragment) {
       js: fragment.js,
       status: 0
     });
+
+    logData('Added', fragment.metadata.name);
   } catch (error) {
     const existingFragment = await _getExistingFragment(
       api,
@@ -88,13 +109,18 @@ async function _importFragment(api, groupId, existingCollection, fragment) {
       fragment
     );
 
-    await api('/fragment.fragmententry/update-fragment-entry', {
-      fragmentEntryId: existingFragment.fragmentEntryId,
-      name: fragment.metadata.name,
-      html: fragment.html,
-      css: fragment.css,
-      js: fragment.js
-    });
+    if (_fragmentHasChanges(existingFragment, fragment)) {
+      await api('/fragment.fragmententry/update-fragment-entry', {
+        fragmentEntryId: existingFragment.fragmentEntryId,
+        name: fragment.metadata.name,
+        html: fragment.html,
+        css: fragment.css,
+        js: fragment.js,
+        status: existingFragment.status
+      });
+
+      logData('Updated', fragment.metadata.name);
+    }
   }
 }
 

@@ -11,3 +11,4 @@ os:
 
 script:
   - npm it
+  - npm run lint

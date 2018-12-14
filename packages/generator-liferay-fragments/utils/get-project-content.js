@@ -61,6 +61,7 @@ function _getCollectionFragments(collectionDirectory) {
  */
 function getProjectContent(basePath) {
   return {
+    basePath: basePath,
     project: require(path.join(basePath, 'package.json')),
     collections: _getProjectCollections(basePath)
   };

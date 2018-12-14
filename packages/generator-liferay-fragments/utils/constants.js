@@ -30,6 +30,8 @@ module.exports.FRAGMENT_NAME_VAR = 'fragmentName';
 
 module.exports.FRAGMENT_SLUG_VAR = 'fragmentSlug';
 
+module.exports.IMPORT_WATCH_VAR = 'watch';
+
 module.exports.LIFERAY_COMPANYID_MESSAGE = 'Company ID';
 module.exports.LIFERAY_COMPANYID_VAR = 'companyId';
 
