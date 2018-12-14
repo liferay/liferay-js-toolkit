@@ -70,7 +70,8 @@ Object {
   \\"cssPath\\": \\"styles.css\\",
   \\"htmlPath\\": \\"index.html\\",
   \\"jsPath\\": \\"main.js\\",
-  \\"name\\": \\"Sample fragment\\"
+  \\"name\\": \\"Sample fragment\\",
+  \\"type\\": \\"section\\"
 }
 ",
   "filePath": "fragment.json",

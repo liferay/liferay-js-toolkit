@@ -12,6 +12,10 @@ const {
   FRAGMENT_DESCRIPTION_VAR,
   FRAGMENT_NAME_MESSAGE,
   FRAGMENT_NAME_VAR,
+  FRAGMENT_TYPE_DEFAULT,
+  FRAGMENT_TYPE_MESSAGE,
+  FRAGMENT_TYPE_OPTIONS,
+  FRAGMENT_TYPE_VAR,
   FRAGMENT_SLUG_VAR,
   NEW_COLLECTION_MESSAGE,
   NEW_COLLECTION_SHORT,
@@ -86,6 +90,13 @@ module.exports = class extends CustomGenerator {
         name: FRAGMENT_DESCRIPTION_VAR,
         message: FRAGMENT_DESCRIPTION_MESSAGE,
         when: !this.hasValue(FRAGMENT_DESCRIPTION_VAR)
+      },
+      {
+        type: 'list',
+        name: FRAGMENT_TYPE_VAR,
+        message: FRAGMENT_TYPE_MESSAGE,
+        choices: FRAGMENT_TYPE_OPTIONS,
+        when: !this.hasValue(FRAGMENT_TYPE_VAR)
       }
     ]);
 
@@ -95,6 +106,8 @@ module.exports = class extends CustomGenerator {
       FRAGMENT_SLUG_VAR,
       voca.slugify(this.getValue(FRAGMENT_NAME_VAR))
     );
+
+    this.setValue(FRAGMENT_TYPE_VAR, FRAGMENT_TYPE_DEFAULT);
   }
 
   /**

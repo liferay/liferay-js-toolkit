@@ -97,6 +97,7 @@ async function _importFragment(api, groupId, existingCollection, fragment) {
       css: fragment.css,
       html: fragment.html,
       js: fragment.js,
+      type: fragment.metadata.type === 'element' ? 1 : 0,
       status: 0
     });
 

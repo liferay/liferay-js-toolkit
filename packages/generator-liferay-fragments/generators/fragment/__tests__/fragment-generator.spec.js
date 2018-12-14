@@ -17,6 +17,7 @@ describe('fragment-generator', () => {
     YeomanTest.run(path.join(__dirname, '..'))
       .withOptions({ fragmentName: 'Sample Fragment' })
       .withOptions({ fragmentDescription: 'Sample Description' })
+      .withOptions({ fragmentType: 'section' })
       .withOptions({ fragmentCollectionSlug: 'sample-collection' })
       .then(projectPath => {
         expectFiles(
@@ -28,6 +29,7 @@ describe('fragment-generator', () => {
   it('accepts no description', () =>
     YeomanTest.run(path.join(__dirname, '..'))
       .withOptions({ fragmentName: 'Sample Fragment' })
+      .withOptions({ fragmentType: 'section' })
       .withOptions({ fragmentCollectionSlug: 'sample-collection' })
       .then(projectPath => {
         expectFiles(
@@ -40,6 +42,7 @@ describe('fragment-generator', () => {
     new Promise((resolve, reject) =>
       YeomanTest.run(path.join(__dirname, '..'))
         .withOptions({ fragmentDescription: 'Sample Description' })
+        .withOptions({ fragmentType: 'section' })
         .withOptions({ fragmentCollectionSlug: 'sample-collection' })
         .then(reject)
         .catch(resolve)
@@ -49,6 +52,7 @@ describe('fragment-generator', () => {
     new Promise((resolve, reject) =>
       YeomanTest.run(path.join(__dirname, '..'))
         .withOptions({ fragmentName: 'Sample Fragment' })
+        .withOptions({ fragmentType: 'section' })
         .withOptions({ fragmentDescription: 'Sample Description' })
         .then(reject)
         .catch(resolve)

@@ -30,6 +30,14 @@ module.exports.FRAGMENT_NAME_VAR = 'fragmentName';
 
 module.exports.FRAGMENT_SLUG_VAR = 'fragmentSlug';
 
+module.exports.FRAGMENT_TYPE_DEFAULT = 'section';
+module.exports.FRAGMENT_TYPE_MESSAGE = 'Fragment type';
+module.exports.FRAGMENT_TYPE_OPTIONS = [
+  { name: 'Section', value: 'section' },
+  { name: 'Element', value: 'element' }
+];
+module.exports.FRAGMENT_TYPE_VAR = 'fragmentType';
+
 module.exports.IMPORT_WATCH_VAR = 'watch';
 
 module.exports.LIFERAY_COMPANYID_MESSAGE = 'Company ID';

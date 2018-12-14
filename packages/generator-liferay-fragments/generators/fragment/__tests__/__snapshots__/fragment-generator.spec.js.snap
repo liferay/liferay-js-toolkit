@@ -5,7 +5,8 @@ exports[`fragment-generator accepts no description 1`] = `
   \\"cssPath\\": \\"styles.css\\",
   \\"htmlPath\\": \\"index.html\\",
   \\"jsPath\\": \\"main.js\\",
-  \\"name\\": \\"Sample Fragment\\"
+  \\"name\\": \\"Sample Fragment\\",
+  \\"type\\": \\"section\\"
 }
 "
 `;
@@ -34,7 +35,8 @@ exports[`fragment-generator generates a new fragment 1`] = `
   \\"cssPath\\": \\"styles.css\\",
   \\"htmlPath\\": \\"index.html\\",
   \\"jsPath\\": \\"main.js\\",
-  \\"name\\": \\"Sample Fragment\\"
+  \\"name\\": \\"Sample Fragment\\",
+  \\"type\\": \\"section\\"
 }
 "
 `;

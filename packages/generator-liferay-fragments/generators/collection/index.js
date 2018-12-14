@@ -10,7 +10,8 @@ const {
   COLLECTION_SLUG_VAR,
   FRAGMENT_COLLECTION_SLUG_VAR,
   FRAGMENT_DESCRIPTION_VAR,
-  FRAGMENT_NAME_VAR
+  FRAGMENT_NAME_VAR,
+  FRAGMENT_TYPE_VAR
 } = require('../../utils/constants');
 
 module.exports = class extends CustomGenerator {
@@ -62,6 +63,7 @@ module.exports = class extends CustomGenerator {
       this.composeWith(require.resolve('../fragment'), {
         [FRAGMENT_NAME_VAR]: fragmentName,
         [FRAGMENT_DESCRIPTION_VAR]: this.getValue(FRAGMENT_DESCRIPTION_VAR),
+        [FRAGMENT_TYPE_VAR]: this.getValue(FRAGMENT_TYPE_VAR),
         [FRAGMENT_COLLECTION_SLUG_VAR]: this.getValue(COLLECTION_SLUG_VAR)
       });
     }
