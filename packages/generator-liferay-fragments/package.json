@@ -75,6 +75,6 @@
 		"lint": "eslint ./src/ ./utils/",
 		"test": "jest"
 	},
-	"repository": "p2kmgcl/generator-liferay-fragments",
+	"repository": "liferay/liferay-npm-build-tools",
 	"license": "MIT"
 }
