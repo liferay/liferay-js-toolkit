@@ -5,8 +5,7 @@
   "homepage": "https://www.npmjs.com/package/generator-liferay-fragments",
   "author": {
     "name": "Pablo Molina",
-    "email": "contact@pablomolina.me",
-    "url": "https://pablomolina.me"
+    "email": "pablo.molina@liferay.com"
   },
   "files": [
     "generators",
@@ -14,6 +13,7 @@
   ],
   "main": "generators/index.js",
   "keywords": [
+    "liferay",
     "yeoman-generator"
   ],
   "devDependencies": {
