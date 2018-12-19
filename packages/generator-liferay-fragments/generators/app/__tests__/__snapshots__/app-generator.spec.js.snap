@@ -4,9 +4,16 @@ exports[`app-generator allows a custom repository name 1`] = `
 Object {
   "content": "{
   \\"name\\": \\"my-nice-custom-project\\",
+  \\"description\\": \\"Liferay Fragments project\\",
   \\"version\\": \\"1.0.0\\",
 
+  \\"engines\\": {
+    \\"node\\": \\">= 8.0.0\\",
+    \\"npm\\": \\">= 6.0.0\\"
+  },
+
   \\"keywords\\": [
+    \\"liferay\\",
     \\"liferay-fragments\\"
   ],
 
@@ -27,6 +34,12 @@ Object {
 exports[`app-generator allows a custom repository name 2`] = `
 Object {
   "content": "# My Nice Custom Project
+
+This project has been created with [generator-liferay-fragments][1]. You can read
+how to manage this project in the [generator documentation][2].
+
+[1]: https://www.npmjs.com/package/generator-liferay-fragments
+[2]: https://www.npmjs.com/package/generator-liferay-fragments#usage
 ",
   "filePath": "/README.md",
 }
@@ -36,9 +49,16 @@ exports[`app-generator allows adding sample content 1`] = `
 Object {
   "content": "{
   \\"name\\": \\"sample-liferay-fragments\\",
+  \\"description\\": \\"Liferay Fragments project\\",
   \\"version\\": \\"1.0.0\\",
 
+  \\"engines\\": {
+    \\"node\\": \\">= 8.0.0\\",
+    \\"npm\\": \\">= 6.0.0\\"
+  },
+
   \\"keywords\\": [
+    \\"liferay\\",
     \\"liferay-fragments\\"
   ],
 
@@ -59,6 +79,12 @@ Object {
 exports[`app-generator allows adding sample content 2`] = `
 Object {
   "content": "# Sample Liferay Fragments
+
+This project has been created with [generator-liferay-fragments][1]. You can read
+how to manage this project in the [generator documentation][2].
+
+[1]: https://www.npmjs.com/package/generator-liferay-fragments
+[2]: https://www.npmjs.com/package/generator-liferay-fragments#usage
 ",
   "filePath": "/README.md",
 }
@@ -110,9 +136,16 @@ exports[`app-generator generates a new project 1`] = `
 Object {
   "content": "{
   \\"name\\": \\"sample-liferay-fragments\\",
+  \\"description\\": \\"Liferay Fragments project\\",
   \\"version\\": \\"1.0.0\\",
 
+  \\"engines\\": {
+    \\"node\\": \\">= 8.0.0\\",
+    \\"npm\\": \\">= 6.0.0\\"
+  },
+
   \\"keywords\\": [
+    \\"liferay\\",
     \\"liferay-fragments\\"
   ],
 
@@ -133,6 +166,12 @@ Object {
 exports[`app-generator generates a new project 2`] = `
 Object {
   "content": "# Sample Liferay Fragments
+
+This project has been created with [generator-liferay-fragments][1]. You can read
+how to manage this project in the [generator documentation][2].
+
+[1]: https://www.npmjs.com/package/generator-liferay-fragments
+[2]: https://www.npmjs.com/package/generator-liferay-fragments#usage
 ",
   "filePath": "/README.md",
 }

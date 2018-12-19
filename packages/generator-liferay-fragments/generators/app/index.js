@@ -64,7 +64,6 @@ class AppGenerator extends CustomGenerator {
 
     this.copyTemplates(this.destinationRoot(), [
       '.editorconfig',
-      '.eslintrc',
       '.gitignore',
       '.yo-rc.json',
       'package.json',
@@ -78,7 +77,7 @@ class AppGenerator extends CustomGenerator {
   install() {
     logNewLine('Installing dependencies');
 
-    this.npmInstall([], {
+    this.npmInstall(['yo', 'generator-liferay-fragments'], {
       loglevel: 'silent',
       progress: false,
       saveDev: true
