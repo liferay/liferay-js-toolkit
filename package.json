@@ -32,6 +32,9 @@
 			"generators/.*",
 			"qa/.*"
 		],
+		"testMatch": [
+			"**/__tests__/**/*.test.js?(x)"
+		],
 		"testPathIgnorePatterns": [
 			"/node_modules/",
 			"/__fixtures__/"

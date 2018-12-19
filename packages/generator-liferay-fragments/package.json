@@ -50,7 +50,7 @@
 			"generators/.*"
 		],
 		"testMatch": [
-			"**/__tests__/**/*.spec.js?(x)"
+			"**/__tests__/**/*.test.js?(x)"
 		]
 	},
 	"lint-staged": {
