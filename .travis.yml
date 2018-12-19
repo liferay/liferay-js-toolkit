@@ -1,9 +1,15 @@
-install: 
+install:
   - npm run lerna
 
 language: node_js
 
 node_js:
-  - "8"
+  - 8
+  - 10
+
+os:
+  - linux
+  - osx
+  - windows
 
 script: npm run ci
