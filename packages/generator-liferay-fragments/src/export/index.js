@@ -39,6 +39,7 @@ module.exports = class extends CustomGenerator {
 
 	/**
 	 * Requests host information and tries to connect
+	 * @return {Promise}
 	 */
 	async _askHostData() {
 		this.setValue(LIFERAY_HOST_VAR, LIFERAY_HOST_DEFAULT);

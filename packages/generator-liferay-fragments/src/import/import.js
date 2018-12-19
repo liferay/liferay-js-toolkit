@@ -138,6 +138,7 @@ async function _importFragment(api, groupId, existingCollection, fragment) {
  * @param {function} api Wrapped API with valid host and authorization
  * @param {string} groupId Group ID
  * @param {Object} collection Local collection
+ * @return {Promise<Object>}
  */
 async function _getExistingCollection(api, groupId, collection) {
 	const response = await api(
@@ -162,6 +163,7 @@ async function _getExistingCollection(api, groupId, collection) {
  * @param {string} groupId Group ID
  * @param {Object} existingCollection Existing collection
  * @param {Object} fragment Local fragment
+ * @return {Promise<Object>}
  */
 async function _getExistingFragment(
 	api,
