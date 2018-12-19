@@ -17,6 +17,7 @@
 		"yeoman-generator"
 	],
 	"devDependencies": {
+		"babel-cli": "^6.26.0",
 		"eslint": "^5.4.0",
 		"eslint-config-prettier": "^3.0.1",
 		"eslint-config-xo": "^0.24.2",
@@ -24,6 +25,7 @@
 		"husky": "^0.14.3",
 		"jest": "^23.6.0",
 		"lint-staged": "^7.2.2",
+		"ncp": "^2.0.0",
 		"prettier": "^1.11.1",
 		"tmp": "0.0.33",
 		"yeoman-assert": "^3.1.0",
@@ -44,6 +46,9 @@
 	},
 	"jest": {
 		"testEnvironment": "node",
+		"modulePathIgnorePatterns": [
+			"generators/.*"
+		],
 		"testMatch": [
 			"**/__tests__/**/*.spec.js?(x)"
 		]
@@ -64,8 +69,10 @@
 		]
 	},
 	"scripts": {
-		"precommit": "npm run test && lint-staged",
-		"lint": "eslint ./generators/ ./utils/",
+		"build": "node ./utils/copy-templates && babel -D -d generators src --ignore 'src/*/templates/**/*'",
+		"prepublish": "npm run build",
+		"precommit": "npm run build && npm run test && lint-staged",
+		"lint": "eslint ./src/ ./utils/",
 		"test": "jest"
 	},
 	"repository": "p2kmgcl/generator-liferay-fragments",
