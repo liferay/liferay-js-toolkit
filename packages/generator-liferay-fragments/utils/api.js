@@ -8,28 +8,28 @@ const request = require('request');
  * @return {Promise<response>} Request response
  */
 const api = async (options = {}) => {
-  const promiseRequest = util.promisify(request);
-  const response = await promiseRequest(options);
+	const promiseRequest = util.promisify(request);
+	const response = await promiseRequest(options);
 
-  if (response.status >= 400) {
-    throw response;
-  } else {
-    let responseBody = {};
+	if (response.status >= 400) {
+		throw response;
+	} else {
+		let responseBody = {};
 
-    try {
-      responseBody = JSON.parse(response.body);
-    } catch (error) {}
+		try {
+			responseBody = JSON.parse(response.body);
+		} catch (error) {}
 
-    if (responseBody.exception) {
-      throw new Error(responseBody.exception);
-    }
+		if (responseBody.exception) {
+			throw new Error(responseBody.exception);
+		}
 
-    if (responseBody.error) {
-      throw new Error(responseBody.error);
-    }
-  }
+		if (responseBody.error) {
+			throw new Error(responseBody.error);
+		}
+	}
 
-  return response;
+	return response;
 };
 
 /**
@@ -42,19 +42,19 @@ const api = async (options = {}) => {
  * @param {string} [options.method='GET'] HTTP method
  * @return {Promise} Request result promise
  */
-api.wrap = (host, auth) => (path, formData, options = { method: 'GET' }) => {
-  const method = options ? options.method || 'GET' : 'GET';
+api.wrap = (host, auth) => (path, formData, options = {method: 'GET'}) => {
+	const method = options ? options.method || 'GET' : 'GET';
 
-  return api(
-    Object.assign(
-      {
-        url: `${host}/api/jsonws${path}`,
-        headers: { Authorization: `Basic ${auth}` },
-        formData
-      },
-      Object.assign({}, options, { method })
-    )
-  );
+	return api(
+		Object.assign(
+			{
+				url: `${host}/api/jsonws${path}`,
+				headers: {Authorization: `Basic ${auth}`},
+				formData,
+			},
+			Object.assign({}, options, {method})
+		)
+	);
 };
 
 module.exports = api;

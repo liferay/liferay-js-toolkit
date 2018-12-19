@@ -33,8 +33,8 @@ module.exports.FRAGMENT_SLUG_VAR = 'fragmentSlug';
 module.exports.FRAGMENT_TYPE_DEFAULT = 'section';
 module.exports.FRAGMENT_TYPE_MESSAGE = 'Fragment type';
 module.exports.FRAGMENT_TYPE_OPTIONS = [
-  { name: 'Section', value: 'section' },
-  { name: 'Element', value: 'element' }
+	{name: 'Section', value: 'section'},
+	{name: 'Element', value: 'element'},
 ];
 module.exports.FRAGMENT_TYPE_VAR = 'fragmentType';
 

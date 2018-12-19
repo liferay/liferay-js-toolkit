@@ -7,9 +7,9 @@ const chalk = require('chalk');
  * @param {string} message Message content
  */
 function log(message) {
-  if (process.env.NODE_ENV !== 'test') {
-    console.log(chalk.green(message));
-  }
+	if (process.env.NODE_ENV !== 'test') {
+		console.log(chalk.green(message));
+	}
 }
 
 /**
@@ -18,9 +18,9 @@ function log(message) {
  * @param {string} data Associated data
  */
 function logData(message, data) {
-  if (process.env.NODE_ENV !== 'test') {
-    console.log(`${chalk.green(message)} ${chalk.bold(data)}`);
-  }
+	if (process.env.NODE_ENV !== 'test') {
+		console.log(`${chalk.green(message)} ${chalk.bold(data)}`);
+	}
 }
 
 /**
@@ -28,10 +28,10 @@ function logData(message, data) {
  * @param {string} message Message content
  */
 function logError(message) {
-  if (process.env.NODE_ENV !== 'test') {
-    console.log('');
-    console.log(chalk.red(message));
-  }
+	if (process.env.NODE_ENV !== 'test') {
+		console.log('');
+		console.log(chalk.red(message));
+	}
 }
 
 /**
@@ -39,7 +39,7 @@ function logError(message) {
  * @param {string} message Message content
  */
 function logIndent(message) {
-  log(`  ${message}`);
+	log(`  ${message}`);
 }
 
 /**
@@ -47,10 +47,10 @@ function logIndent(message) {
  * @param {string} message Message content
  */
 function logNewLine(message) {
-  if (process.env.NODE_ENV !== 'test') {
-    console.log('');
-    log(message);
-  }
+	if (process.env.NODE_ENV !== 'test') {
+		console.log('');
+		log(message);
+	}
 }
 
 /**
@@ -58,16 +58,16 @@ function logNewLine(message) {
  * @param {string} message Message content
  */
 function logSecondary(message) {
-  if (process.env.NODE_ENV !== 'test') {
-    console.log(message);
-  }
+	if (process.env.NODE_ENV !== 'test') {
+		console.log(message);
+	}
 }
 
 module.exports = {
-  log,
-  logData,
-  logError,
-  logIndent,
-  logNewLine,
-  logSecondary
+	log,
+	logData,
+	logError,
+	logIndent,
+	logNewLine,
+	logSecondary,
 };
