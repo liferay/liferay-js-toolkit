@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import prop from 'dot-prop';
 import fs from 'fs';
 import path from 'path';
 import readJsonSync from 'read-json-sync';
@@ -27,8 +28,34 @@ export class Project {
 			? readJsonSync(npmbundlerrcPath)
 			: {};
 
+		this._cachedOutputDir = undefined;
+
 		this.jar = new Jar(this);
 		this.l10n = new Localization(this);
+	}
+
+	/**
+	 * Get project's directory
+	 */
+	get dir() {
+		return this._projectDir;
+	}
+
+	/**
+	 * Get project's output directory
+	 */
+	get outputDir() {
+		if (this._cachedOutputDir === undefined) {
+			this._cachedOutputDir = prop.get(
+				this._npmbundlerrc,
+				'output',
+				this.jar.supported
+					? 'build'
+					: 'build/resources/main/META-INF/resources'
+			);
+		}
+
+		return this._cachedOutputDir;
 	}
 }
 

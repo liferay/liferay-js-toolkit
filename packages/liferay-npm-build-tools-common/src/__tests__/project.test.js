@@ -17,9 +17,31 @@ describe('empty project', () => {
 		);
 	});
 
+	describe('project', () => {
+		it('returns dir', () => {
+			expect(project.dir).toBe(
+				path.join(__dirname, '__fixtures__', 'project', 'empty')
+			);
+		});
+
+		it('returns outputDir', () => {
+			expect(project.outputDir).toBe(
+				'build/resources/main/META-INF/resources'
+			);
+		});
+	});
+
 	describe('project.jar', () => {
 		it('returns customManifestHeaders', () => {
 			expect(project.jar.customManifestHeaders).toEqual({});
+		});
+
+		it('returns outputDir', () => {
+			expect(project.jar.outputDir).toBeUndefined();
+		});
+
+		it('returns supported', () => {
+			expect(project.jar.supported).toBe(false);
 		});
 	});
 
@@ -57,6 +79,18 @@ describe('standard project', () => {
 		);
 	});
 
+	describe('project', () => {
+		it('returns dir', () => {
+			expect(project.dir).toBe(
+				path.join(__dirname, '__fixtures__', 'project', 'standard')
+			);
+		});
+
+		it('returns outputDir', () => {
+			expect(project.outputDir).toBe('build');
+		});
+	});
+
 	describe('project.jar', () => {
 		it('returns customManifestHeaders', () => {
 			expect(project.jar.customManifestHeaders).toEqual({
@@ -68,6 +102,14 @@ describe('standard project', () => {
 				// Coming from both, but .npmbundlerrc wins
 				'Project-Name': 'Test Project',
 			});
+		});
+
+		it('returns outputDir', () => {
+			expect(project.jar.outputDir).toBe('dist');
+		});
+
+		it('returns supported', () => {
+			expect(project.jar.supported).toBe(true);
 		});
 	});
 
