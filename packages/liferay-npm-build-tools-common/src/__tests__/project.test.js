@@ -18,6 +18,12 @@ describe('empty project', () => {
 	});
 
 	describe('project', () => {
+		it('loads liferay-npm-bundler-preset-standard preset', () => {
+			expect(project._npmbundlerrc['*']['.babelrc']['presets']).toEqual([
+				'liferay-standard',
+			]);
+		});
+
 		it('returns dir', () => {
 			expect(project.dir).toBe(
 				path.join(__dirname, '__fixtures__', 'project', 'empty')
@@ -174,5 +180,31 @@ describe('standard project', () => {
 		it('returns supported', () => {
 			expect(project.l10n.supported).toBe(true);
 		});
+	});
+});
+
+describe('honors presets', () => {
+	beforeEach(() => {
+		project = new Project(
+			path.join(__dirname, '__fixtures__', 'project', 'with-preset')
+		);
+	});
+
+	it('loads project.dir from preset', () => {
+		expect(project.dir).toBe(
+			path.join(__dirname, '__fixtures__', 'project', 'with-preset')
+		);
+	});
+
+	it('loads project.outputDir from preset', () => {
+		expect(project.outputDir).toBe('preset-build');
+	});
+
+	it('loads project.jar.outputDir from preset', () => {
+		expect(project.jar.outputDir).toBe('preset-dist');
+	});
+
+	it('detects JAR configuration even if only in preset', () => {
+		expect(project.jar.supported).toBe(true);
 	});
 });
