@@ -6,15 +6,13 @@
 
 import path from 'path';
 
-import {Project} from '../project';
+import {Project} from '..';
 
 let project;
 
 describe('empty project', () => {
 	beforeEach(() => {
-		project = new Project(
-			path.join(__dirname, '__fixtures__', 'project', 'empty')
-		);
+		project = new Project(path.join(__dirname, '__fixtures__', 'empty'));
 	});
 
 	describe('project', () => {
@@ -26,7 +24,7 @@ describe('empty project', () => {
 
 		it('returns dir', () => {
 			expect(project.dir).toBe(
-				path.join(__dirname, '__fixtures__', 'project', 'empty')
+				path.join(__dirname, '__fixtures__', 'empty')
 			);
 		});
 
@@ -84,15 +82,13 @@ describe('empty project', () => {
 
 describe('standard project', () => {
 	beforeEach(() => {
-		project = new Project(
-			path.join(__dirname, '__fixtures__', 'project', 'standard')
-		);
+		project = new Project(path.join(__dirname, '__fixtures__', 'standard'));
 	});
 
 	describe('project', () => {
 		it('returns dir', () => {
 			expect(project.dir).toBe(
-				path.join(__dirname, '__fixtures__', 'project', 'standard')
+				path.join(__dirname, '__fixtures__', 'standard')
 			);
 		});
 
@@ -153,7 +149,6 @@ describe('standard project', () => {
 				path.join(
 					__dirname,
 					'__fixtures__',
-					'project',
 					'standard',
 					'features',
 					'localization',
@@ -167,7 +162,6 @@ describe('standard project', () => {
 				default: path.join(
 					__dirname,
 					'__fixtures__',
-					'project',
 					'standard',
 					'features',
 					'localization',
@@ -176,7 +170,6 @@ describe('standard project', () => {
 				es_ES: path.join(
 					__dirname,
 					'__fixtures__',
-					'project',
 					'standard',
 					'features',
 					'localization',
@@ -194,13 +187,13 @@ describe('standard project', () => {
 describe('honors presets', () => {
 	beforeEach(() => {
 		project = new Project(
-			path.join(__dirname, '__fixtures__', 'project', 'with-preset')
+			path.join(__dirname, '__fixtures__', 'with-preset')
 		);
 	});
 
 	it('loads project.dir from preset', () => {
 		expect(project.dir).toBe(
-			path.join(__dirname, '__fixtures__', 'project', 'with-preset')
+			path.join(__dirname, '__fixtures__', 'with-preset')
 		);
 	});
 
@@ -214,5 +207,45 @@ describe('honors presets', () => {
 
 	it('detects JAR configuration even if only in preset', () => {
 		expect(project.jar.supported).toBe(true);
+	});
+});
+
+describe('project.jar.supported', () => {
+	it('works with true boolean config', () => {
+		project = new Project(
+			path.join(__dirname, '__fixtures__', 'create-jar', 'bool-true')
+		);
+
+		expect(project.jar.supported).toBe(true);
+	});
+
+	it('works with false boolean config', () => {
+		project = new Project(
+			path.join(__dirname, '__fixtures__', 'create-jar', 'bool-false')
+		);
+
+		expect(project.jar.supported).toBe(false);
+	});
+});
+
+describe('deprecated config', () => {
+	describe('.npmbundlerrc', () => {
+		it('create-jar/web-context-path', () => {
+			project = new Project(
+				path.join(__dirname, '__fixtures__', 'legacy', 'context-path-1')
+			);
+
+			expect(project.jar.webContextPath).toBe('/my-portlet');
+		});
+	});
+
+	describe('package.json', () => {
+		it('osgi/web-context-path', () => {
+			project = new Project(
+				path.join(__dirname, '__fixtures__', 'legacy', 'context-path-2')
+			);
+
+			expect(project.jar.webContextPath).toBe('/my-portlet');
+		});
 	});
 });
