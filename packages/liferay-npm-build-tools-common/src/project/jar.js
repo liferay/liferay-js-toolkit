@@ -20,9 +20,11 @@ export default class Jar {
 	constructor(project) {
 		this._project = project;
 		this._npmbundlerrc = project._npmbundlerrc;
+		this._pkgJson = project._pkgJson;
 
 		this._cachedCustomManifestHeaders = undefined;
 		this._cachedOutputDir = undefined;
+		this._cachedWebContextPath = undefined;
 	}
 
 	/**
@@ -80,5 +82,27 @@ export default class Jar {
 	 */
 	get supported() {
 		return prop.has(this._npmbundlerrc, 'create-jar');
+	}
+
+	get webContextPath() {
+		if (!this._cachedWebContextPath) {
+			this._cachedWebContextPath = prop.get(
+				this._npmbundlerrc,
+				'create-jar.features.web-context',
+				// TODO: deprecated 'web-context-path', remove for the next major version
+				prop.get(
+					this._npmbundlerrc,
+					'create-jar.web-context-path',
+					// TODO: deprecated 'osgi.Web-ContextPath', remove for the next major version
+					prop.get(
+						this._pkgJson,
+						'osgi.Web-ContextPath',
+						`/${this._pkgJson.name}-${this._pkgJson.version}`
+					)
+				)
+			);
+		}
+
+		return this._cachedWebContextPath;
 	}
 }
