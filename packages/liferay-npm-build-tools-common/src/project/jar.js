@@ -81,7 +81,7 @@ export default class Jar {
 	 * Check if project generates a JAR
 	 */
 	get supported() {
-		return prop.has(this._npmbundlerrc, 'create-jar');
+		return !!prop.get(this._npmbundlerrc, 'create-jar', false);
 	}
 
 	get webContextPath() {

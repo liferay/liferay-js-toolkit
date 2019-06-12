@@ -42,15 +42,18 @@ export class Project {
 
 	/**
 	 * Get project's output directory
+	 * @return {string} the directory path (with native separators)
 	 */
 	get outputDir() {
 		if (this._cachedOutputDir === undefined) {
-			this._cachedOutputDir = prop.get(
-				this._npmbundlerrc,
-				'output',
-				this.jar.supported
-					? 'build'
-					: 'build/resources/main/META-INF/resources'
+			this._cachedOutputDir = path.normalize(
+				prop.get(
+					this._npmbundlerrc,
+					'output',
+					this.jar.supported
+						? 'build'
+						: 'build/resources/main/META-INF/resources'
+				)
 			);
 		}
 

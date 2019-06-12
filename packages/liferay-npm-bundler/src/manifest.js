@@ -5,9 +5,8 @@
  */
 
 import fs from 'fs';
+import project from 'liferay-npm-build-tools-common/lib/project';
 import path from 'path';
-
-import * as config from './config';
 
 /**
  * A class to hold information about processed modules and optionally dump/read
@@ -120,8 +119,6 @@ export class Manifest {
 	}
 }
 
-const manifest = new Manifest(
-	path.join(config.getOutputDir(), 'manifest.json')
-);
+const manifest = new Manifest(path.join(project.outputDir, 'manifest.json'));
 
 export default manifest;
