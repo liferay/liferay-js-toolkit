@@ -34,7 +34,7 @@ export default function createJar() {
 		fs.mkdirpSync(project.jar.outputDir);
 
 		fs.writeFileSync(
-			path.join(project.jar.outputDir, config.jar.getOutputFilename()),
+			path.join(project.jar.outputDir, project.jar.outputFilename),
 			buffer
 		);
 	});
@@ -47,7 +47,7 @@ export default function createJar() {
 function addBuildFiles(zip) {
 	addFiles(
 		project.outputDir,
-		['**/*', `!${config.jar.getOutputFilename()}`],
+		['**/*', `!${project.jar.outputFilename}`],
 		zip.folder('META-INF').folder('resources')
 	);
 }

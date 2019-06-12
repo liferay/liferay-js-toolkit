@@ -44,6 +44,10 @@ describe('empty project', () => {
 			expect(project.jar.outputDir).toBeUndefined();
 		});
 
+		it('returns outputFilename', () => {
+			expect(project.jar.outputFilename).toBeUndefined();
+		});
+
 		it('returns supported', () => {
 			expect(project.jar.supported).toBe(false);
 		});
@@ -112,6 +116,10 @@ describe('standard project', () => {
 
 		it('returns outputDir', () => {
 			expect(project.jar.outputDir).toBe('dist');
+		});
+
+		it('returns outputFilename', () => {
+			expect(project.jar.outputFilename).toBe('output.jar');
 		});
 
 		it('returns supported', () => {
@@ -207,6 +215,16 @@ describe('honors presets', () => {
 
 	it('detects JAR configuration even if only in preset', () => {
 		expect(project.jar.supported).toBe(true);
+	});
+});
+
+describe('project.jar.outputFilename', () => {
+	it('returns package name and version if not specified', () => {
+		project = new Project(
+			path.join(__dirname, '__fixtures__', 'create-jar', 'bool-true')
+		);
+
+		expect(project.jar.outputFilename).toBe('bool-true-1.0.0.jar');
 	});
 });
 

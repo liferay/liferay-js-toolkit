@@ -24,6 +24,7 @@ export default class Jar {
 
 		this._cachedCustomManifestHeaders = undefined;
 		this._cachedOutputDir = undefined;
+		this._cachedOutputFileName = undefined;
 		this._cachedWebContextPath = undefined;
 	}
 
@@ -75,6 +76,27 @@ export default class Jar {
 		}
 
 		return this._cachedOutputDir;
+	}
+
+	/**
+	 * Get the output file name for JAR files. Defaults to
+	 * `${pkgJson.name}-${pkgJson.version}.jar` if none is specified.
+	 * @return {string}
+	 */
+	get outputFilename() {
+		if (!this.supported) {
+			return undefined;
+		}
+
+		if (this._cachedOutputFileName === undefined) {
+			this._cachedOutputFileName = prop.get(
+				this._npmbundlerrc,
+				'create-jar.output-filename',
+				`${this._pkgJson.name}-${this._pkgJson.version}.jar`
+			);
+		}
+
+		return this._cachedOutputFileName;
 	}
 
 	/**
