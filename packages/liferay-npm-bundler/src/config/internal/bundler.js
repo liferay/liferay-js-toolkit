@@ -152,6 +152,7 @@ function instantiateLoaderRules(rulesConfigs) {
 
 		return {
 			test: ruleConfig.test,
+			exclude: ruleConfig.exclude || [],
 			extension: ruleConfig.extension,
 			loaders,
 		};
