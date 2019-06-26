@@ -15,7 +15,8 @@
 		"webpack": "4.29.6",
 		"webpack-cli": "3.3.0",
 		"webpack-dev-server": "^3.7.2",
-		"windows-build-tools": "^4.0.0"
+		"windows-build-tools": "^4.0.0",
+		"shx": "^0.3.2"
 	},
 	"dependencies": {
 		"react": "16.8.6",
