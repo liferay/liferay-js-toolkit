@@ -78,11 +78,22 @@ export default class extends JsonModifier {
 			test = test.substring(1, test.length - 1);
 
 			const currentRules = prop.get(json, 'webpack.rules', []);
-
-			currentRules.push({
+			//if its babel-loader, add options for modern react
+			const rule = {
 				test,
 				use: loader,
-			});
+			};
+			if (loader === 'babel-loader') {
+				rule.use = {
+					loader: 'babel-loader',
+					options: JSON.stringify({
+						presets: ['@babel/env', '@babel/react'],
+						plugins: ['@babel/plugin-proposal-class-properties'],
+					}),
+				};
+			}
+
+			currentRules.push(rule);
 
 			prop.set(json, 'webpack.rules', currentRules);
 		});

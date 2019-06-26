@@ -44,9 +44,19 @@ function copyWebpackResources() {
 	render('webpack.config.js', {
 		pkgName: pkgJson.name,
 		port: cfg.getWebpackPort(),
-		rules: util.inspect(
-			cfg.getWebpackRules().map(rule => {
+		rules: _util2.default.inspect(
+			cfg.getWebpackRules().map(function(rule) {
 				rule.test = new RegExp(rule.test);
+				//see if there are options for babel-loader
+				var use = rule.use;
+				if (use) {
+					var options = use.options;
+					var loader = use.loader;
+					if (options && loader === 'babel-loader') {
+						// console.log('babel-loader detected');
+						rule.use.options = JSON.stringify(options);
+					}
+				}
 				return rule;
 			})
 		),
