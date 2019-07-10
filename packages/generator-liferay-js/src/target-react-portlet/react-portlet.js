@@ -46,23 +46,9 @@ export default class extends Generator {
 		// Configure build
 		pkgJson.mergeDependencies(dependenciesJson);
 		pkgJson.addBuildStep('babel --source-maps -d build src');
-		pkgJson.addBuildStep('npm run compile-sass');
-		pkgJson.addBuildStep('npm run clean');
-		pkgJson.addScript('start', 'npm-run-all -p watch-sass dev-server');
-		pkgJson.addScript('dev-server', 'lnbs-start');
-		pkgJson.addScript('compile-sass', 'node-sass assets/css -o assets/css');
-		pkgJson.addScript(
-			'clean',
-			'shx rm -rf build dist && shx echo cleaning complete'
-		);
-		pkgJson.addScript(
-			'watch-sass',
-			'node-sass --watch assets/css -o assets/css'
-		);
 		cp.copyFile('.babelrc');
 
 		// Configure webpack
-		//pkgJson.addDevDependency('babel-loader', '7.1.5');
 		npmbuildrc.addWebpackRule(/src\/.*\.js$/, 'babel-loader');
 
 		// Prepare text labels
