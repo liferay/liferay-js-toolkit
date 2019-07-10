@@ -44,7 +44,7 @@ function copyWebpackResources() {
 	render('webpack.config.js', {
 		pkgName: pkgJson.name,
 		port: cfg.getWebpackPort(),
-		rules: _util2.default.inspect(
+		rules: util.inspect(
 			cfg.getWebpackRules().map(function(rule) {
 				rule.test = new RegExp(rule.test);
 				//see if there are options for babel-loader
