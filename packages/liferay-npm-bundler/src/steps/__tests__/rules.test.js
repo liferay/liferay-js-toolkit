@@ -13,12 +13,18 @@ describe('stripSourceDir', () => {
 	let savedPathSep;
 
 	beforeEach(() => {
-		project._sources = ['assets', 'src/main/resources'];
+		// Force project.sources to be loaded
+		// eslint-disable-next-line no-unused-vars
+		const foo = project.sources;
+
+		project._sources.push(...['assets', 'src/main/resources']);
 
 		savedPathSep = path.sep;
 	});
 
 	afterEach(() => {
+		project._sources.length = 0;
+
 		path.sep = savedPathSep;
 	});
 
