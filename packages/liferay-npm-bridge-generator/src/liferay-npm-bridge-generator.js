@@ -38,10 +38,10 @@ export default function main() {
 
 		// Input folder where source modules live
 		const input =
-			opts['input'] || 'classes/META-INF/resources/node_modules';
+			opts['input'] || 'build/node/packageRunBuild/resources/node_modules';
 
 		// Output folder where bridge modules must be placed
-		const output = opts['output'] || 'classes/META-INF/resources/bridge';
+		const output = opts['output'] || 'build/node/packageRunBuild/resources/bridge';
 
 		// The glob expression(s) to filter source modules
 		const fileGlobs = opts['file-globs'] || '**/lib/**/*.js';
