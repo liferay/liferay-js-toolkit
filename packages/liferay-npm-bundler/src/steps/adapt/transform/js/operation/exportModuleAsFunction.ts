@@ -5,43 +5,41 @@
 
 import estree from 'estree';
 import {
-	JsSource,
 	JsSourceTransform,
 	getAstProgramStatements,
+	mapAstNodeLocation,
 	parseAsAstProgram,
 	replaceJsSource,
 } from 'liferay-js-toolkit-core';
 
+const exportModuleProgram = parseAsAstProgram(`
+	module.exports = function(_LIFERAY_PARAMS_, _ADAPT_RT_) {
+	};
+`);
+
 export default function exportModuleAsFunction(): JsSourceTransform {
-	return ((source) => _exportModuleAsFunction(source)) as JsSourceTransform;
+	return ((source) =>
+		replaceJsSource(source, {
+			enter(node) {
+				if (node.type !== 'Program') {
+					return;
+				}
+
+				const newProgram = mapAstNodeLocation(
+					exportModuleProgram,
+					node
+				);
+
+				const functionBody = getFunctionBody(newProgram);
+
+				functionBody.body = getAstProgramStatements(node);
+
+				return newProgram;
+			},
+		})) as JsSourceTransform;
 }
 
-async function _exportModuleAsFunction(source: JsSource): Promise<JsSource> {
-	return replaceJsSource(source, {
-		enter(node) {
-			if (node.type !== 'Program') {
-				return;
-			}
-
-			const program = node;
-
-			const wrapAst = parseAsAstProgram(`
-				module.exports = function(_LIFERAY_PARAMS_, _ADAPT_RT_) {
-				};
-			`);
-
-			const {body: wrapBody} = wrapAst;
-
-			const functionBody = getBlockStatement(wrapAst);
-
-			functionBody.body = getAstProgramStatements(program);
-
-			program.body = wrapBody;
-		},
-	});
-}
-
-function getBlockStatement(program: estree.Program): estree.BlockStatement {
+function getFunctionBody(program: estree.Program): estree.BlockStatement {
 	const {body: programBody} = program;
 
 	if (

@@ -5,6 +5,7 @@
 
 import {
 	JsSourceTransform,
+	mapAstNodeLocation,
 	parseAsAstExpressionStatement,
 	replaceJsSource,
 } from 'liferay-js-toolkit-core';
@@ -44,9 +45,11 @@ export default function adaptStaticURLsAtRuntime(
 					return;
 				}
 
-				return parseAsAstExpressionStatement(`
+				const adaptExpression = parseAsAstExpressionStatement(`
 					_ADAPT_RT_.adaptStaticURL("${node.value}")
 				`);
+
+				return mapAstNodeLocation(adaptExpression, node);
 			},
 		});
 	}) as JsSourceTransform;

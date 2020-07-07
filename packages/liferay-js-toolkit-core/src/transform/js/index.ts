@@ -29,9 +29,9 @@ export async function replace(
 	visitor: estraverse.Visitor
 ): Promise<SourceCode> {
 	// TODO: clone source.ast to avoid modifying source?
-	const ast = source.ast || parse(source.code);
+	let ast = source.ast || parse(source.code);
 
-	estraverse.replace(ast as estree.Node, visitor);
+	ast = estraverse.replace(ast as estree.Node, visitor);
 
 	const file = source.map ? source.map.file : '<unknown>';
 

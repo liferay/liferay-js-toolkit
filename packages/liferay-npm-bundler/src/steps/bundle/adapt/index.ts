@@ -5,6 +5,8 @@
 
 import fs from 'fs-extra';
 import {
+	FilePath,
+	JsonTransform,
 	addNamespace,
 	addPkgJsonDependencies,
 	deletePkgJsonDependencies,
@@ -13,6 +15,7 @@ import {
 	wrapModule,
 } from 'liferay-js-toolkit-core';
 import path from 'path';
+import {URL} from 'url';
 
 import {bundlerWebpackDir, project} from '../../../globals';
 import * as log from '../../../log';
@@ -24,6 +27,7 @@ export default async function adapt(): Promise<void> {
 	await writeExportModules();
 	await writeManifestModule();
 	await transformBundles();
+	await relocateSourceMaps();
 	await injectImportsInPkgJson();
 }
 
@@ -36,7 +40,7 @@ async function injectImportsInPkgJson(): Promise<void> {
 
 	const file = project.outputDir.join('package.json');
 
-	transformJsonFile(
+	await transformJsonFile(
 		file,
 		file,
 		addPkgJsonDependencies(
@@ -64,11 +68,24 @@ async function injectImportsInPkgJson(): Promise<void> {
 }
 
 /**
+ * Rewrite the `sources` field of source map files to avoid naming collisions.
+ */
+async function relocateSourceMaps(): Promise<void> {
+	for (const id of ['runtime', 'vendor', ...Object.keys(project.exports)]) {
+		const mapFile = project.outputDir.join(`${id}.bundle.js.map`);
+
+		await transformJsonFile(mapFile, mapFile, transformSourceMapSources());
+
+		log.debug(`Relocated source map ${mapFile.basename()}`);
+	}
+}
+
+/**
  * Transform webpack bundles internalizing webpack manifest and wrapping them
  * in AMD define() calls.
  */
 async function transformBundles(): Promise<void> {
-	['runtime', 'vendor', ...Object.keys(project.exports)].forEach((id) => {
+	for (const id of ['runtime', 'vendor', ...Object.keys(project.exports)]) {
 		const fileName = `${id}.bundle.js`;
 
 		const sourceFile = bundlerWebpackDir.join(fileName);
@@ -76,7 +93,7 @@ async function transformBundles(): Promise<void> {
 
 		const {name, version} = project.pkgJson;
 
-		transformJsSourceFile(
+		await transformJsSourceFile(
 			sourceFile,
 			destFile,
 			replaceWebpackJsonp(),
@@ -91,7 +108,43 @@ async function transformBundles(): Promise<void> {
 		);
 
 		log.debug(`Transformed webpack bundle ${fileName}`);
-	});
+	}
+}
+
+/**
+ * A `JsonTransform` to tweak the `sources` field of a source map file.
+ */
+function transformSourceMapSources(): JsonTransform<{sources: string[]}> {
+	const {pkgJson} = project;
+
+	const projectId = `${pkgJson.name}@${pkgJson.version}`;
+
+	return (async (map) => {
+		map.sources = map.sources.map((source) => {
+			const url = new URL(source);
+
+			let file;
+
+			if (url.pathname.startsWith('//')) {
+				file = new FilePath(url.pathname.substring(1), {posix: true});
+			} else {
+				file = project.dir.join(
+					new FilePath(url.pathname, {posix: true})
+				);
+			}
+
+			const filePath = project.dir
+				.relative(file)
+				.asPosix.replace(/\.\.\//g, '[..]/');
+
+			url.protocol = 'liferay:';
+			url.pathname = `${projectId}/${filePath}`;
+
+			return url.toString();
+		});
+
+		return map;
+	}) as JsonTransform<{sources: string[]}>;
 }
 
 /**

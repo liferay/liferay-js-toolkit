@@ -67,7 +67,10 @@ export type {
 export type {default as PkgJson} from './schema/PkgJson';
 
 // JavaScript AST helpers
-export {getProgramStatements as getAstProgramStatements} from './transform/js/ast';
+export {
+	getProgramStatements as getAstProgramStatements,
+	mapNodeLocation as mapAstNodeLocation,
+} from './transform/js/ast';
 export {
 	parse as parseAsAstProgram,
 	parseAsExpressionStatement as parseAsAstExpressionStatement,

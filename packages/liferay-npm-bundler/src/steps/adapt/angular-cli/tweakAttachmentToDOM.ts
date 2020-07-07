@@ -5,9 +5,14 @@
 
 import {
 	JsSourceTransform,
+	mapAstNodeLocation,
 	parseAsAstExpressionStatement,
 	replaceJsSource,
 } from 'liferay-js-toolkit-core';
+
+const {expression: portletElementIdExpression} = parseAsAstExpressionStatement(
+	`'#' + _LIFERAY_PARAMS_.portletElementId`
+);
 
 /**
  * Changes `'app-root'` to `'#'+_LIFERAY_PARAMS_.portletElementId` so that
@@ -23,11 +28,7 @@ export default function tweakAttachmentToDOM(domId: string): JsSourceTransform {
 					return;
 				}
 
-				const {expression} = parseAsAstExpressionStatement(
-					`'#' + _LIFERAY_PARAMS_.portletElementId`
-				);
-
-				return expression;
+				return mapAstNodeLocation(portletElementIdExpression, node);
 			},
 		})) as JsSourceTransform;
 }

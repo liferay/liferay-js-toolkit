@@ -3,7 +3,11 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import {JsSourceTransform, replaceJsSource} from 'liferay-js-toolkit-core';
+import {
+	JsSourceTransform,
+	mapAstNodeLocation,
+	replaceJsSource,
+} from 'liferay-js-toolkit-core';
 import {parseAsExpressionStatement} from 'liferay-js-toolkit-core/lib/transform/js/parse';
 
 const {expression: webpackManifestExpression} = parseAsExpressionStatement(
@@ -25,7 +29,7 @@ export default function replaceWebpackJsonp(): JsSourceTransform {
 					node.property.type === 'Literal' &&
 					node.property.value === 'webpackJsonp'
 				) {
-					return webpackManifestExpression;
+					return mapAstNodeLocation(webpackManifestExpression, node);
 				}
 			},
 		})) as JsSourceTransform;

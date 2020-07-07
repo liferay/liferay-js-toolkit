@@ -4,62 +4,63 @@
  */
 
 import {
-	JsSource,
 	JsSourceTransform,
+	mapAstNodeLocation,
 	parseAsAstExpressionStatement,
 	replaceJsSource,
 } from 'liferay-js-toolkit-core';
 
-export default function tweakAttachmentToDOM(): JsSourceTransform {
-	return ((source) => _tweakAttachmentToDOM(source)) as JsSourceTransform;
-}
+const {expression: portletElementIdExpression} = parseAsAstExpressionStatement(
+	'_LIFERAY_PARAMS_.portletElementId'
+);
 
 /**
  * Changes `document.getElementById('root')` to
  * `document.getElementById(_LIFERAY_PARAMS_.portletElementId)` so that React
  * attaches to the portlet's DIV node.
- *
- * @param source
  */
-async function _tweakAttachmentToDOM(source: JsSource): Promise<JsSource> {
-	return await replaceJsSource(source, {
-		enter(node) {
-			if (node.type !== 'CallExpression') {
-				return;
-			}
+export default function tweakAttachmentToDOM(): JsSourceTransform {
+	return (async (source) =>
+		await replaceJsSource(source, {
+			enter(node) {
+				if (node.type !== 'CallExpression') {
+					return;
+				}
 
-			const {arguments: args, callee} = node;
+				const {arguments: args, callee} = node;
 
-			if (callee.type !== 'MemberExpression') {
-				return;
-			}
+				if (callee.type !== 'MemberExpression') {
+					return;
+				}
 
-			const {object, property} = callee;
+				const {object, property} = callee;
 
-			if (object.type !== 'Identifier' || object.name !== 'document') {
-				return;
-			}
+				if (
+					object.type !== 'Identifier' ||
+					object.name !== 'document'
+				) {
+					return;
+				}
 
-			if (
-				property.type !== 'Identifier' ||
-				property.name !== 'getElementById'
-			) {
-				return;
-			}
+				if (
+					property.type !== 'Identifier' ||
+					property.name !== 'getElementById'
+				) {
+					return;
+				}
 
-			if (args.length !== 1) {
-				return;
-			}
+				if (args.length !== 1) {
+					return;
+				}
 
-			if (args[0].type !== 'Literal' || args[0].value !== 'root') {
-				return;
-			}
+				if (args[0].type !== 'Literal' || args[0].value !== 'root') {
+					return;
+				}
 
-			const {expression} = parseAsAstExpressionStatement(
-				'_LIFERAY_PARAMS_.portletElementId'
-			);
-
-			args[0] = expression;
-		},
-	});
+				args[0] = mapAstNodeLocation(
+					portletElementIdExpression,
+					args[0]
+				);
+			},
+		})) as JsSourceTransform;
 }

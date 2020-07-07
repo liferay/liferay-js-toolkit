@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+import clone from 'clone';
+import * as estraverse from 'estraverse';
 import estree from 'estree';
 
 const STATEMENT_NODES = new Set([
@@ -28,6 +30,36 @@ const STATEMENT_NODES = new Set([
 	'WhileStatement',
 	'WithStatement',
 ]);
+
+/**
+ * Replaces source code locations of `newNode` with the ones in `originalNode`
+ * so that source maps maintain equivalence.
+ *
+ * @remarks
+ * This method does not modify the `newNode` object.
+ *
+ * @param newNode
+ * @param originalNode
+ * @return returns the modified node
+ */
+export function mapNodeLocation<T extends estree.Node>(
+	newNode: estree.Node,
+	originalNode: T
+): T {
+	const clonedNewNode = clone(newNode);
+
+	estraverse.traverse(clonedNewNode, {
+		enter(node) {
+			node['loc'] = originalNode['loc'];
+			node['start'] = originalNode['start'];
+			node['end'] = originalNode['end'];
+
+			return node;
+		},
+	});
+
+	return clonedNewNode;
+}
 
 /**
  * Programs may have Directives, Statements, and ModuleDeclarations as children,
