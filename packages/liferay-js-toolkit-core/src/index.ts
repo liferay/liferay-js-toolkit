@@ -92,3 +92,4 @@ export {default as setPkgJsonPortletHeader} from './transform/json/operation/set
 
 // Text source transformation
 export * from './transform/text';
+export {default as replaceText} from './transform/text/operation/replaceText';
