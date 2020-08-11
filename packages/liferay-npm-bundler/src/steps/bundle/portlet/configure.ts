@@ -7,9 +7,14 @@ import fs from 'fs-extra';
 import {FilePath, isLocalModule} from 'liferay-js-toolkit-core';
 import webpack from 'webpack';
 
-import {bundlerGeneratedDir, bundlerWebpackDir, project} from '../../globals';
-import * as log from '../../log';
-import {abort} from '../../util';
+import {
+	bundlerGeneratedDir,
+	bundlerWebpackDir,
+	project,
+} from '../../../globals';
+import * as log from '../../../log';
+import {abort} from '../../../util';
+import {overrideWarn} from '../util';
 
 export default function configure(): webpack.Configuration {
 	// Get user's config
@@ -128,13 +133,4 @@ function exportLocalModule(id: string, moduleName: string): FilePath {
 	);
 
 	return project.dir.relative(generatedFile);
-}
-
-function overrideWarn(fieldName: string, value: unknown): void {
-	if (value !== undefined) {
-		log.warn(
-			'Your liferay-npm-bundler.config.js file is configuring webpack option\n' +
-				`'${fieldName}', but it will be ignored`
-		);
-	}
 }

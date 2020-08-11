@@ -5,18 +5,17 @@
 
 import webpack from 'webpack';
 
-import * as log from '../../log';
-import {abort} from '../../util';
-import ExplainedError from './ExplainedError';
+import * as log from '../../../log';
+import run from '../run';
+import {abortWithErrors} from '../util';
+import writeResults from '../write-results';
 import adapt from './adapt';
 import configure from './configure';
-import run from './run';
-import writeResults from './write-results';
 
 /**
  * Run configured rules.
  */
-export default async function bundle(): Promise<webpack.Stats> {
+export default async function bundlePortlet(): Promise<webpack.Stats> {
 	log.debug('Using webpack at', require.resolve('webpack'));
 
 	log.info('Configuring webpack build...');
@@ -40,14 +39,4 @@ export default async function bundle(): Promise<webpack.Stats> {
 	log.info('Webpack phase finished successfully');
 
 	return stats;
-}
-
-function abortWithErrors(stats: webpack.Stats): void {
-	const {errors} = stats.compilation;
-
-	errors.forEach((err) =>
-		log.error(`${new ExplainedError(err).toString()}\n`)
-	);
-
-	abort(`Build failed: webpack build finished with errors`);
 }

@@ -12,7 +12,8 @@ import * as log from './log';
 import report from './report';
 import adaptAngularCli from './steps/adapt/angular-cli';
 import adaptCreateReactApp from './steps/adapt/create-react-app';
-import bundle from './steps/bundle';
+import bundleFragment from './steps/bundle/fragment';
+import bundlePortlet from './steps/bundle/portlet';
 import runRules from './steps/rules';
 import {abort} from './util';
 
@@ -40,6 +41,8 @@ export default async function (argv: {version: boolean}): Promise<void> {
 		report.rulesConfig(project.rules.config);
 		report.versionsInfo(versionsInfo);
 
+		log.debug(`Detected project type: ${project.probe.type}`);
+
 		// Initialize package.json and manifest.json files
 		copyPackageJson();
 		addRootPackageToManifest(rootPkg);
@@ -51,12 +54,16 @@ export default async function (argv: {version: boolean}): Promise<void> {
 				break;
 
 			case ProjectType.BUNDLER:
-				await bundle();
+				await bundlePortlet();
 				await runRules(rootPkg);
 				break;
 
 			case ProjectType.CREATE_REACT_APP:
 				await adaptCreateReactApp();
+				break;
+
+			case ProjectType.FRAGMENT:
+				await bundleFragment();
 				break;
 
 			default:
