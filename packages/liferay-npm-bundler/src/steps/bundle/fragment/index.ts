@@ -3,16 +3,15 @@
  * SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
-import estree from 'estree';
 import fs from 'fs-extra';
 import {
 	JsSourceTransform,
-	getAstProgramStatements,
+	TextTransform,
 	parseAsAstExpressionStatement,
-	parseAsAstProgram,
 	removeNamespace,
 	replaceJsSource,
 	replaceText,
+	splitModuleName,
 	transformJsSourceFile,
 	transformTextFile,
 } from 'liferay-js-toolkit-core';
@@ -25,6 +24,7 @@ import {
 } from '../../../globals';
 import * as log from '../../../log';
 import {abort} from '../../../util';
+import {findFiles} from '../../../util/files';
 import run from '../run';
 import {abortWithErrors, overrideWarn} from '../util';
 import writeResults from '../write-results';
@@ -59,7 +59,26 @@ export default async function bundleFragment(): Promise<webpack.Stats> {
 
 	log.info('Webpack phase finished successfully');
 
+	await copyAssets();
+
 	return stats;
+}
+
+async function copyAssets(): Promise<void> {
+	const files = findFiles(project.sourceDir, ['**/*', '!**/*.js']);
+
+	files.forEach((file) => {
+		const destFile = project.outputDir.join(file);
+
+		fs.ensureDirSync(destFile.dirname().asNative);
+
+		fs.copyFileSync(
+			project.sourceDir.join(file).asNative,
+			destFile.asNative
+		);
+	});
+
+	log.info(`Copied ${files.length} static files to output directory`);
 }
 
 function configure(): webpack.Configuration {
@@ -127,24 +146,21 @@ function configure(): webpack.Configuration {
  * in AMD define() calls.
  */
 async function transformBundles(): Promise<void> {
-	for (const id of Object.keys(project.exports)) {
-		const fileName = `${id}.bundle.js`;
-
-		const sourceFile = bundlerWebpackDir.join(fileName);
+	for (const [id, file] of Object.entries(project.exports)) {
+		const sourceFile = bundlerWebpackDir.join(`${id}.bundle.js`);
 
 		if (!fs.existsSync(sourceFile.asNative)) {
 			break;
 		}
 
-		const destFile = project.outputDir.join(fileName);
+		const destFile = project.outputDir.join(file);
 
 		const requiredModules: RequiredModules = {};
 
 		await transformJsSourceFile(
 			sourceFile,
 			destFile,
-			replaceRequires(requiredModules),
-			wrapModule(requiredModules)
+			replaceRequires(requiredModules)
 		);
 
 		// TODO: remove when fixed --vvv
@@ -152,11 +168,33 @@ async function transformBundles(): Promise<void> {
 		await transformTextFile(
 			destFile,
 			destFile,
+			addImportsHeader(requiredModules),
 			replaceText(/\/\/# sourceMappingURL=.*\.map/g, '')
 		);
 
-		log.debug(`Transformed webpack bundle ${fileName}`);
+		log.debug(`Transformed webpack bundle ${sourceFile.basename()}`);
 	}
+}
+
+function addImportsHeader(requiredModules: RequiredModules): TextTransform {
+	return (async (text) => {
+		const imports = Object.entries(requiredModules)
+			.map(
+				([module, variable]) =>
+					`//${variable}|${module}|${findImportVersion(module)}`
+			)
+			.join('\n');
+
+		return '//{imports\n' + imports + '\n//}imports\n' + text;
+	}) as TextTransform;
+}
+
+function findImportVersion(moduleName: string): string {
+	const parts = splitModuleName(moduleName);
+
+	const pkgName = removeNamespace(parts.pkgName);
+
+	return project.imports[pkgName].version;
 }
 
 function replaceRequires(requiredModules: RequiredModules): JsSourceTransform {
@@ -206,88 +244,4 @@ function replaceRequires(requiredModules: RequiredModules): JsSourceTransform {
 				return parseAsAstExpressionStatement(variable).expression;
 			},
 		})) as JsSourceTransform;
-}
-
-/**
- * Wraps a module into an AMD require call.
- *
- * @param requiredModules list of required modules
- */
-function wrapModule(requiredModules: RequiredModules): JsSourceTransform {
-	return ((source) =>
-		replaceJsSource(source, {
-			enter(node) {
-				if (node.type !== 'Program') {
-					return;
-				}
-
-				const program = node;
-
-				const dependencies = Object.entries(requiredModules)
-					.map(([module]) => `'${module}'`)
-					.join(',');
-
-				const dependencyVariables = Object.entries(requiredModules)
-					.map(([, variable]) => `${variable}`)
-					.join(', ');
-
-				const wrapAst = parseAsAstProgram(`
-					Liferay.Loader.require(
-						[
-							${dependencies}
-						],
-						function(${dependencyVariables}) {
-						}
-					);
-				`);
-
-				const {body: wrapBody} = wrapAst;
-
-				const moduleBody = getBlockStatement(wrapAst);
-
-				moduleBody.body = getAstProgramStatements(program);
-
-				program.body = wrapBody;
-			},
-		})) as JsSourceTransform;
-}
-
-function getBlockStatement(wrapAst: estree.Program): estree.BlockStatement {
-	const {body: wrapBody} = wrapAst;
-
-	if (wrapBody.length !== 1) {
-		throw new Error('Program body has more than one node');
-	}
-
-	if (wrapBody[0].type !== 'ExpressionStatement') {
-		throw new Error('Program is not an expression statement');
-	}
-
-	const {expression} = wrapBody[0];
-
-	if (expression.type !== 'CallExpression') {
-		throw new Error('Program is not a call expression');
-	}
-
-	const {arguments: args} = expression;
-
-	if (args.length !== 2) {
-		throw new Error(
-			'Program call expression must have exactly two arguments'
-		);
-	}
-
-	if (args[1].type !== 'FunctionExpression') {
-		throw new Error(
-			'Second argument of program call expression is not a function'
-		);
-	}
-
-	const {body: moduleBody} = args[1];
-
-	if (moduleBody.type !== 'BlockStatement') {
-		throw new Error('Argument function body is not a block statement');
-	}
-
-	return moduleBody;
 }
